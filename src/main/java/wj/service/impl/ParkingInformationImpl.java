@@ -8,6 +8,7 @@ import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.ParkingRecHis;
 import wj.mapper.ParkingInformationMapper;
+import wj.mapper.ParkingRecHisMapper;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
@@ -19,6 +20,9 @@ public class ParkingInformationImpl implements IParkingInformation {
     private static Logger log = Logger.getLogger(ParkingInformationImpl.class);
     @Autowired
     private ParkingInformationMapper mapper;
+
+    @Autowired
+    private ParkingRecHisMapper parkingRecHisMapper;
 /***
  * 获取转态的车位信息
  * **/
@@ -131,13 +135,26 @@ public class ParkingInformationImpl implements IParkingInformation {
 
 
     //登记车辆信息到历史表
-    public void setParkingInfoToHis(ParkingInformation parkingInfos){
+    @Override
+    public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName) throws Exception{
         ParkingRecHis his = new ParkingRecHis();
         his.setCar_parking_id(parkingInfos.getCar_parking_id());
         his.setCar_room_number(parkingInfos.getCar_room_number());
         his.setParking_start_time(parkingInfos.getUse_start_time());
-        his.setParking_type(parkingInfos.getCar_type());
+        his.setParking_type(parkingInfos.getUse_time());
+        his.setCar_type(parkingInfos.getCar_type());
+        his.setUser_name(userName);
+        his.setUser_id(parkingInfos.getUser_id());
+        his.setPay_type(parkingInfos.getPay_type());
+        int i = parkingRecHisMapper.addParkingRecHis(his);
+        if (i>0){
+            log.error("登记入停车历史表"+his.toString());
 
+        }else {
+            log.error("登记入停车历史表出错车辆" + his.toString());
+            throw new Exception("登记停车历史表出错");
+
+        }
     }
 
 

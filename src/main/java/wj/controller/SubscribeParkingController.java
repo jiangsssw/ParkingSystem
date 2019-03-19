@@ -13,7 +13,6 @@ import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.User;
 import wj.mapper.CarInformationMapper;
 import wj.mapper.ParkingInformationMapper;
-import wj.service.interfaces.ICarInformation;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
@@ -148,6 +147,7 @@ public class SubscribeParkingController {
         }
         int userId = parkings.getUser_id();
         String carType = parkings.getCar_type();
+        String name = parkings.getUser_name();
         if (userId==999){
             //非注册用户
             return parkingInformation.setCarToParking(model,userId,carId,"03","01","01",carType);
@@ -199,11 +199,32 @@ public class SubscribeParkingController {
                 //在租期内放行
 
                 //登记停车记录表
-
+               p.setUse_start_time(timeNow);
+            parkingInformation.setParkingInfoToHis(p,name);
+                model.addAttribute("result",p.getUse_time());
+                return "checkSuccess";
             }
+            //不在租期内提醒用户续期或继续停车
+
+            //将过期的停车位修改为正常
+            p.setParking_status("01");
+            p.setPay_type("");
+            p.setUse_time("");
+            p.setCar_type("");
+            p.setUser_car_id("");
+            p.setUser_id(999);
+            int i = mapper.updateParkingInformation(p);
+            if (i>0){
+                //修改成功
+                log.error("修改租期到时间的车位信息："+p.toString());
+                model.addAttribute("result","车已经到期");
+            }else {
+                throw new Exception("修改租期到时间的车位信息");
+            }
+            return "error";
         }
 
-        return "";
+        return "error";
     }
 
 

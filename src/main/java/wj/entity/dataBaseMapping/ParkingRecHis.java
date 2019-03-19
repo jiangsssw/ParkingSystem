@@ -116,12 +116,13 @@ public class ParkingRecHis {
                 ", car_room_number=" + car_room_number +
                 ", user_id=" + user_id +
                 ", pay_type='" + pay_type + '\'' +
-                ", parking_start_time=" + TimeUtil.timeFormat(parking_start_time) +
-                ", parking_end_time=" + TimeUtil.timeFormat(parking_end_time) +
+                ", parking_start_time=" + parking_start_time +
+                ", parking_end_time=" + parking_end_time +
                 ", parking_time=" + parking_time +
                 ", user_name='" + user_name + '\'' +
                 ", user_car_id='" + user_car_id + '\'' +
                 ", parking_type='" + parking_type + '\'' +
+                ", car_type='" + car_type + '\'' +
                 '}';
     }
 }
