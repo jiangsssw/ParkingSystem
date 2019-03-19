@@ -1,0 +1,12 @@
+.settings
+.gradle/
+/build/
+/gradle/
+/target/
+/gradlew
+gradlew.bat
+/lib/
+/bin/
+*.iml
+.idea
+ac.log*
