@@ -17,10 +17,10 @@ import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
-
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -227,5 +227,61 @@ public class SubscribeParkingController {
         return "error";
     }
 
+    //查询用户的预约车辆
+    @RequestMapping(value = "/getSubscribeCars")
+    public String getSubscribeCars(HttpSession httpSession,Model model){
+        User u = (User) httpSession.getAttribute("User");
+        if (u==null){
+            return "login";
+        }
+        String phoneId = u.getPhone_id();
+        int userId = u.getUser_id();
+        ParkingInformation[] cars =parkingInformation.getAllCarInfoByUserId(userId);
+        List<ParkingInformation> carinfo = new ArrayList<>();
+        if (cars==null||cars.length==0) {
+            for (int i = 0; i < cars.length; i++) {
+                String status = cars[i].getParking_status();
+                if ("03".equals(status)) {
+                    carinfo.add(cars[i]);
+                }
+            }
+        }
+        model.addAttribute("result",carinfo);
+        return "";
+    }
+
+    //取消预约
+    @RequestMapping(value = "/cancelSubscribeCar",method = RequestMethod.POST)
+    public String cancelSubscribe(@PathVariable("carId")String carId,HttpSession httpSession,Model model) throws Exception{
+        User u = (User) httpSession.getAttribute("User");
+        if (u==null){
+            return "login";
+        }
+        Map map = mapper.findParkingInformationByCarId(carId);
+        if (map==null||map.size()==0){
+            //车辆非预约状态
+            model.addAttribute("result","找不到车辆");
+            return "error";
+        }
+        ParkingInformation information = new ParkingInformation();
+        ReflectUtil.mapToObject(map,information);
+        if ("03".equals(information.getParking_status())) {
+
+            //修改状态
+            information.setParking_status("01");
+            information.setUser_id(0);
+            information.setUser_car_id("");
+            information.setCar_type("");
+            int i =mapper.updateParkingInformation(information);
+            if (i>0){
+                log.error("成功取消用户"+information.getUser_id()+"预约状态,");
+            }else {
+                log.error("取消用户"+information.getUser_id()+"预约状态失败,");
+                throw new Exception("取消用户"+information.getUser_id()+"预约状态失败,");
+            }
+        }
+        model.addAttribute("result","车辆非预约状态");
+        return "error";
+    }
 
 }

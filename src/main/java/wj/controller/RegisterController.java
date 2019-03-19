@@ -28,6 +28,7 @@ public class RegisterController {
         return "register";
     }
 
+    //注册
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public String getRegister(@Valid Register register, RedirectAttributes model, Errors errors){
         if (errors.hasErrors()){

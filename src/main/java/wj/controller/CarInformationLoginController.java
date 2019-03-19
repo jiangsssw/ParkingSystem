@@ -25,7 +25,7 @@ public class CarInformationLoginController {
 
     @Autowired
     private UserMapper mapper;
-
+//登记车辆
     @RequestMapping(value = "/CarInformationLogin",method = RequestMethod.POST)
     private String loginCarInformation(@Valid CarLogin carLogin, RedirectAttributes model, Errors errors){
         int userId;

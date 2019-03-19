@@ -26,7 +26,7 @@ private IUserService service;
     public String getLoginPage(){
         return "login";
     }
-
+//登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public @ResponseBody boolean login(@Valid Login login, RedirectAttributes model, HttpSession httpSession, Errors errors){
         if (errors.hasErrors()){
