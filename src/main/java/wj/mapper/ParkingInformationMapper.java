@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface ParkingInformationMapper {
     //添加停车位信息
-    @Insert("insert into parking_information values(#{parking.car_parking_id},#{parking.car_room_number},#{parking.user_id},#{parking.parking_status},#{parking.pay_type},#{parking.use_start_time},#{parking.use_time},#{parking.count_money},#{parking.user_car_id},#{parking.car_type})")
+    @Insert("insert into parking_information values(#{parking.car_parking_id},#{parking.car_room_number},#{parking.user_id},#{parking.parking_status},#{parking.pay_type},#{parking.use_start_time},#{parking.use_time},#{parking.count_money},#{parking.user_car_id},#{parking.car_type},#{parking.is_subscription})")
     @Options(keyProperty="parking.car_parking_id",useGeneratedKeys=true)
     public int addParkingInformation(@Param("parking") ParkingInformation parking);
 
@@ -25,6 +25,7 @@ public interface ParkingInformationMapper {
             "count_money=#{parking.count_money}, " +
             "user_car_id=#{parking.user_car_id}, " +
             "car_type=#{parking.car_type} " +
+            "is_subscription=#{parking.is_subscription}"+
             "where where car_parking_id=#{parking.car_parking_id}")
     public int updateParkingInformation(@Param("parking") ParkingInformation parking);
 

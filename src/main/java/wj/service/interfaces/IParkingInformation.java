@@ -13,7 +13,9 @@ public interface IParkingInformation {
 
     boolean addParkingInfo(ParkingInformation information);
 
-    String setCarToParking(Model model,int userId, String carId, String parkingStatus, String payType, String useTime, String carType);
+    String setCarToParking(Model model,int userId, String carId, String parkingStatus, String payType, String useTime, String carType,String name);
 
     public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName) throws Exception;
+
+    String dealWithOutCar(Model model,ParkingInformation parking);
 }

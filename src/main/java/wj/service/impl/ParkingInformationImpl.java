@@ -100,7 +100,7 @@ public class ParkingInformationImpl implements IParkingInformation {
     }
 
     @Override
-    public String  setCarToParking(Model model,int userId, String carId, String parkingStatus, String payType, String useTime, String carType) {
+    public String  setCarToParking(Model model,int userId, String carId, String parkingStatus, String payType, String useTime, String carType,String name)  {
         //则查找车位登记停车
         ParkingInformation[]  allCar  = getAllCarInfoByStatus("01");
         if(allCar==null||allCar.length==0){
@@ -122,8 +122,14 @@ public class ParkingInformationImpl implements IParkingInformation {
         log.error("停车信息："+parkingInfos.toString());
         int i = mapper.updateParkingInformation(parkingInfos);
         if (i>0){
-            //登记停车记录表
-
+            // 登记停车记录表
+        try {
+            setParkingInfoToHis(parkingInfos,name);
+        }catch (Exception e){
+            log.error("出错的用户姓名："+name+"车牌号："+carId+"登记信息" +
+                    parkingInfos.toString());
+            e.printStackTrace();
+        }
             model.addAttribute("result","车辆通过");
             //调用其他的接口，如硬件放行
             return "checkSuccess";
@@ -157,5 +163,10 @@ public class ParkingInformationImpl implements IParkingInformation {
         }
     }
 
+    @Override
+    public String dealWithOutCar(Model model, ParkingInformation parking) {
+        //判断其是否是预约
 
+        return null;
+    }
 }

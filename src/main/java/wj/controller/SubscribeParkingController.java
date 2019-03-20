@@ -81,6 +81,7 @@ public class SubscribeParkingController {
             parkingInfos.setUse_start_time(times);
             parkingInfos.setCar_parking_id(parkingId);
             parkingInfos.setParking_status("03");//车位预约
+            parkingInfos.setIs_subscription(1);
             mapper.updateParkingInformation(parkingInfos);
             model.addAttribute("rulet","预约成功");
             return "SubscribeSuccess";
@@ -114,6 +115,7 @@ public class SubscribeParkingController {
         parkingInfos.setUse_start_time(times);
         parkingInfos.setCar_parking_id(parkingId);
         parkingInfos.setParking_status("03");//车位预约
+        parkingInfos.setIs_subscription(1);
         int i = mapper.updateParkingInformation(parkingInfos);
         if (i>0){
             model.addAttribute("result","预约成功");
@@ -150,13 +152,13 @@ public class SubscribeParkingController {
         String name = parkings.getUser_name();
         if (userId==999){
             //非注册用户
-            return parkingInformation.setCarToParking(model,userId,carId,"03","01","01",carType);
+            return parkingInformation.setCarToParking(model,userId,carId,"03","01","01",carType,name);
         }
         //userId=other,查询parkingInfo..表中是否有其预约
         Map carMap = mapper.findParkingInformationByCarId(carId);
         if (carMap==null||carMap.size()==0){
             //非预约的用户
-            return parkingInformation.setCarToParking(model,userId,carId,"03","01","01",carType);
+            return parkingInformation.setCarToParking(model,userId,carId,"03","01","01",carType, name);
         }
         //判断是长期租车还是预约租车
         ParkingInformation p = new ParkingInformation();
@@ -182,6 +184,9 @@ public class SubscribeParkingController {
                return "checkFailed";
 
            }
+            //登记车辆历史表
+            p.setUse_start_time(TimeUtil.getCurrentTimeNow());
+            parkingInformation.setParkingInfoToHis(p,name);
 
             model.addAttribute("result","车辆通过");
             //调用其他的接口，如硬件放行
@@ -212,7 +217,8 @@ public class SubscribeParkingController {
             p.setUse_time("");
             p.setCar_type("");
             p.setUser_car_id("");
-            p.setUser_id(999);
+            p.setUser_id(0);
+            p.setIs_subscription(0);
             int i = mapper.updateParkingInformation(p);
             if (i>0){
                 //修改成功
@@ -272,6 +278,7 @@ public class SubscribeParkingController {
             information.setUser_id(0);
             information.setUser_car_id("");
             information.setCar_type("");
+            information.setIs_subscription(0);
             int i =mapper.updateParkingInformation(information);
             if (i>0){
                 log.error("成功取消用户"+information.getUser_id()+"预约状态,");

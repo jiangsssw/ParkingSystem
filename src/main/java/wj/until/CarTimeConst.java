@@ -1,12 +1,20 @@
 package wj.until;
 
 public class CarTimeConst {
-    public static final String ONE_DAY = "02";
-    public static final String ONE_WEEK = "03";
-    public static final String ONE_MONTH = "04";
-    public static final String HALF_YEAR = "05";
-    public static final String ONE_YEAR = "06";
-    public static final String TemporaryParking = "01";
+    private static final String ONE_DAY = "02";
+    private static final String ONE_WEEK = "03";
+    private static final String ONE_MONTH = "04";
+    private static final String HALF_YEAR = "05";
+    private static final String ONE_YEAR = "06";
+    private static final String TemporaryParking = "01";
+
+    //计费的
+    private static final String one = "hour_mount";
+    private static final String two = "day_mount";
+    private static final String three = "week_mount";
+    private static final String four = "month_mount";
+    private static final String five = "year_mount";
+    private static final String six = "year_mount";
 
     public static int TransForTime(String usetime){
         if (ONE_DAY.equals(usetime)){

@@ -16,6 +16,7 @@ public class ParkingInformation {
     private int count_money;
     private String user_car_id;
     private String car_type;
+    private int is_subscription;
 
     @Override
     public String toString() {
@@ -25,11 +26,12 @@ public class ParkingInformation {
                 ", user_id=" + user_id +
                 ", parking_status='" + parking_status + '\'' +
                 ", pay_type='" + pay_type + '\'' +
-                ", use_start_time=" + TimeUtil.timeFormat(use_start_time) +
+                ", use_start_time=" + use_start_time +
                 ", use_time='" + use_time + '\'' +
                 ", count_money=" + count_money +
                 ", user_car_id='" + user_car_id + '\'' +
                 ", car_type='" + car_type + '\'' +
+                ", is_subscription=" + is_subscription +
                 '}';
     }
 
@@ -111,5 +113,13 @@ public class ParkingInformation {
 
     public void setCar_type(String car_type) {
         this.car_type = car_type;
+    }
+
+    public int getIs_subscription() {
+        return is_subscription;
+    }
+
+    public void setIs_subscription(int is_subscription) {
+        this.is_subscription = is_subscription;
     }
 }
