@@ -166,7 +166,31 @@ public class ParkingInformationImpl implements IParkingInformation {
     @Override
     public String dealWithOutCar(Model model, ParkingInformation parking) {
         //判断其是否是预约
+        int a = parking.getIs_subscription();
+        //取出相应字段
+        if (a>0){
+            //预约用户
 
-        return null;
+        }
+
+        String status = parking.getParking_status();
+        if (!"01".equals(status)&&status!=null&&status!=""){
+            //长期租赁用户
+        }
+        if ("01".equals(status)){
+            //普通临时用户
+
+        }
+
+
+        //非法用户
+        model.addAttribute("result","用户非法");
+        log.error("用户非法："+parking.toString());
+        return "error";
     }
+
+    /**
+     *
+     * */
+
 }

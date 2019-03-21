@@ -16,6 +16,31 @@ public class CarTimeConst {
     private static final String five = "year_mount";
     private static final String six = "year_mount";
 
+    private static final double freeTax = 0.05;
+
+    public static String getfield(String status){
+        if (ONE_DAY.equals(status)){
+            return two;
+        }
+        if (ONE_WEEK.equals(status)){
+            return three;
+        }
+        if (ONE_WEEK.equals(status)){
+            return four;
+        }
+        if (ONE_WEEK.equals(status)){
+            return five;
+        }
+        if (ONE_WEEK.equals(status)){
+            return six;
+        }
+        if (ONE_WEEK.equals(status)){
+            return one;
+        }
+
+        return "";
+    }
+
     public static int TransForTime(String usetime){
         if (ONE_DAY.equals(usetime)){
             return 24;
