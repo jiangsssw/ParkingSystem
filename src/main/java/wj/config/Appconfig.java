@@ -58,14 +58,6 @@ public class Appconfig {
         configurer.setBasePackage("wj.mapper");
         return configurer;
     }
-    @Bean // 声明当前方法的返回值是一个bean
-    @Profile("dev")
-    public UserServiceImpl devTestBean() {
-        return new UserServiceImpl();
-    }
-    @Bean
-    public User getUserResultMap(){
-       return new User();
-    }
+
 
 }

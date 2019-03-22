@@ -240,12 +240,12 @@ public class ParkingInformationImpl implements IParkingInformation {
             throw new Exception("calculate表没有计费方试，");
         }
         double  money =0;
-            int hourCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.one));
-            int dayCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.two));
-            int weekCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.three));
-            int monthCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.four));
-            int halfYearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.five));
-            int yearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.six));
+            int hourCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.TemporaryParking));
+            int dayCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.ONE_DAY));
+            int weekCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.ONE_WEEK));
+            int monthCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.ONE_MONTH));
+            int halfYearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.HALF_YEAR))/2;
+            int yearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.ONE_YEAR));
             //天
             int day = (int) Math.floor(parkingTime/24);
             int remain=0;

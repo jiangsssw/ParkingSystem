@@ -9,6 +9,6 @@ import java.util.Map;
 public interface CalculateRulerMapper {
 
     //获取最新的计费规则
-    @Select("select * from calculate_ruler order by id DESC limit 1")
+    @Select("select * from calculate_ruler order by rule_id DESC limit 1")
     Map<String,Object> getCalculateRuler();
 }

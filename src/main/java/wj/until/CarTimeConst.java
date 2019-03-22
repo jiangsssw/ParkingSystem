@@ -26,16 +26,16 @@ public class CarTimeConst {
         if (ONE_WEEK.equals(status)){
             return three;
         }
-        if (ONE_WEEK.equals(status)){
+        if (ONE_MONTH.equals(status)){
             return four;
         }
-        if (ONE_WEEK.equals(status)){
+        if (ONE_YEAR.equals(status)){
             return five;
         }
-        if (ONE_WEEK.equals(status)){
+        if (HALF_YEAR.equals(status)){
             return six;
         }
-        if (ONE_WEEK.equals(status)){
+        if (TemporaryParking.equals(status)){
             return one;
         }
 

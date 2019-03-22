@@ -37,4 +37,5 @@
     <!-- 自动扫描装配 -->
     <context:component-scan base-package="wj.controller"/>
     <context:component-scan base-package="wj.mapper"/>
+    <context:component-scan base-package="wj.service"/>
 </beans>

@@ -9,8 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import wj.config.Appconfig;
 
+import wj.config.TestConfig;
 import wj.entity.dataBaseMapping.User;
 import wj.service.impl.CarInformationImpl;
+import wj.service.impl.ParkingInformationImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.service.interfaces.IUserService;
 import wj.until.CheckUtil;
@@ -24,7 +26,7 @@ import java.util.Map;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Appconfig.class})
+@ContextConfiguration(classes = {Appconfig.class, TestConfig.class})
 @ActiveProfiles("dev")
 public class testUser {
     private static Logger log = Logger.getLogger(testUser.class);
@@ -74,11 +76,13 @@ if (aaa==null||aaa.length()==0){
     }
     @Test
     public void testanOther()throws ParseException{
-        Timestamp stamp1 = TimeUtil.getCurrentTimeNow();
-        Date date = new Date();
-        long time = date.getTime()-10000000;
-        Timestamp stamp2 = new Timestamp(time);
-        int hour = TimeUtil.getHourFromTwoTime(stamp1,stamp2);
-        System.out.println("shijian"+hour);
+//        Timestamp stamp1 = TimeUtil.getCurrentTimeNow();
+//        Date date = new Date();
+//        long time = date.getTime()-10000000;
+//        Timestamp stamp2 = new Timestamp(time);
+//        int hour = TimeUtil.getHourFromTwoTime(stamp1,stamp2);
+//        System.out.println("shijian"+hour);
+
+        //测试收费方法
     }
 }
