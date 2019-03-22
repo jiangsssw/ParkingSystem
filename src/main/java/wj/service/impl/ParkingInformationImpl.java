@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.ParkingRecHis;
 import wj.mapper.CalculateRulerMapper;
@@ -15,6 +14,8 @@ import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 @Service
@@ -172,42 +173,82 @@ public class ParkingInformationImpl implements IParkingInformation {
     public String dealWithOutCar(Model model, ParkingInformation parking) {
         //判断其是否是预约
         int a = parking.getIs_subscription();
-        //取出相应字段
-        if (a>0){
-            //预约用户
-        int money;
-        }
-
+        Timestamp timestamp = parking.getUse_start_time();
+        Timestamp timeNow = new Timestamp(new Date().getTime());
+        int parkingTime =TimeUtil.getHourFromTwoTime(timeNow,timestamp);
+        int realParkingTime=0;
         String status = parking.getParking_status();
         if (!"01".equals(status)&&status!=null&&status!=""){
             //长期租赁用户
+            //判断其是否在租期内
+            int useTime = CarTimeConst.TransForTime(parking.getUse_time());
+            if (parkingTime>useTime){
+                //租期到期。。。算出超时部分的钱
+                 realParkingTime= parkingTime - useTime;
+            }
+            //没到期
+            realParkingTime=0;
         }
         if ("01".equals(status)){
             //普通临时用户
+            realParkingTime = parkingTime;
+        }
+        double realMoney=0;
+        double money=0;
+        try {
+            money = getMoney(realParkingTime);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //取出相应字段
+        if (a>0){
+            //预约用户
+            realMoney = money*(1-CarTimeConst.freeTax)-5;
+            if (realMoney<0){
+                realMoney = 0;
+            }
 
         }
+        if (!"01".equals(status)&&status!=null&&status!=""){
+            realMoney = money*(1-CarTimeConst.freeTax);
+        }
 
-
-        //非法用户
+        if (status==null||status==""){
+            //非法用户
         model.addAttribute("result","用户非法");
         log.error("用户非法："+parking.toString());
         return "error";
+        }
+        //返回应收费显示页面
+        model.addAttribute("result",realMoney);
+        log.error("车辆"+parking.getUser_car_id()+"应收费用"+realMoney);
+        return "payMoney";
+
     }
 
     /**
      *@param parkingTime 停车时长 int
-     * @param userCard 用户身份 1 租期用户  2 预约用户 3.临时用户 （int）
+     *  用户身份 1 租期用户  2 预约用户 3.临时用户 （int）
      * @param
      * */
-    double getMoney(int parkingTime,int userCard){
+    public double getMoney(int parkingTime)throws Exception{
+        if (parkingTime>18000){
+            return CarTimeConst.LARGE_MONEY;
+        }
         Map<String,Object> map = calculateRulerMapper.getCalculateRuler();
-        if (userCard==1){
-            return 0;
+        if (map==null||map.size()==0){
+            throw new Exception("calculate表没有计费方试，");
         }
         double  money =0;
-        if (userCard==2){
+            int hourCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.one));
+            int dayCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.two));
+            int weekCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.three));
+            int monthCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.four));
+            int halfYearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.five));
+            int yearCount = (int)map.get(CarTimeConst.getfield(CarTimeConst.six));
             //天
             int day = (int) Math.floor(parkingTime/24);
+            int remain=0;
             if (day>0){
                 //周
                 int week = (int) Math.floor(day/7);
@@ -220,18 +261,34 @@ public class ParkingInformationImpl implements IParkingInformation {
                         if (halfYear>0){
                             //年
                             int year = (int)Math.floor(halfYear/2);
+                            if (year>0){
+                                //年计费
+                               remain = (int)Math.floor((parkingTime-year*24*365)/(24*30));
+                               money = year*yearCount + remain*monthCount;
+                               return money;
+                            }
+                            //半年计费
+                            remain = (int)Math.floor((parkingTime-halfYear*6*30*24)/(24*30));
+                            money = halfYear*halfYearCount + remain*monthCount;
+                            return money;
                         }
+                        //月计费
+                        remain = (int) Math.floor((parkingTime-month*30*24)/(24*7));
+                        money = month*monthCount + remain*weekCount;
+                        return money;
                     }
+                    //周计费
+                    remain = (int) Math.floor((parkingTime - week*7*24)/24);
+                    money = week*weekCount+remain*dayCount;
+                    return money;
                 }
+                //天计费
+                 remain = parkingTime-day*24;
+                money = day*dayCount+remain*hourCount;
+                return money;
             }
             //小时
-            int count = (int)map.get(CarTimeConst.getfield(CarTimeConst.one));
-            money = parkingTime*count;
+            money = parkingTime*hourCount;
             return money;
-        }
-
-
-        return 0;
     }
-
 }

@@ -18,6 +18,7 @@ public class CarTimeConst {
 
     public static final double freeTax = 0.05;
 
+    public static final int LARGE_MONEY =20000;
     public static String getfield(String status){
         if (ONE_DAY.equals(status)){
             return two;

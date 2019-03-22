@@ -1,5 +1,6 @@
 package wj.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Controller
 public class OutCarController {
+    private static Logger log = Logger.getLogger(OutCarController.class);
 
     @Autowired
     private CarInformationMapper carMapper;
@@ -33,6 +35,7 @@ public class OutCarController {
     * */
     @RequestMapping(value = "/outOfCarFromParking",method = RequestMethod.POST)
 public String outOfCarFromParking(@PathVariable("carId") String carId, Model model){
+        log.error("正在处理车辆:"+carId);
         Map map = carMapper.findCarInformationByCarId(carId);
         if(map==null||map.size()==0){
             //未登记车辆进行登记
