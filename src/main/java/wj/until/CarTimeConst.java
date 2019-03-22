@@ -1,22 +1,22 @@
 package wj.until;
 
 public class CarTimeConst {
-    private static final String ONE_DAY = "02";
-    private static final String ONE_WEEK = "03";
-    private static final String ONE_MONTH = "04";
-    private static final String HALF_YEAR = "05";
-    private static final String ONE_YEAR = "06";
-    private static final String TemporaryParking = "01";
+     public static final String ONE_DAY = "02";
+    public static final String ONE_WEEK = "03";
+    public  static final String ONE_MONTH = "04";
+    public static final String HALF_YEAR = "05";
+    public static final String ONE_YEAR = "06";
+    public static final String TemporaryParking = "01";
 
     //计费的
-    private static final String one = "hour_mount";
-    private static final String two = "day_mount";
-    private static final String three = "week_mount";
-    private static final String four = "month_mount";
-    private static final String five = "year_mount";
-    private static final String six = "year_mount";
+    public static final String one = "hour_mount";
+    public static final String two = "day_mount";
+    public static final String three = "week_mount";
+    public static final String four = "month_mount";
+    public static final String five = "year_mount";
+    public static final String six = "year_mount";
 
-    private static final double freeTax = 0.05;
+    public static final double freeTax = 0.05;
 
     public static String getfield(String status){
         if (ONE_DAY.equals(status)){

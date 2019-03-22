@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.ParkingRecHis;
+import wj.mapper.CalculateRulerMapper;
 import wj.mapper.ParkingInformationMapper;
 import wj.mapper.ParkingRecHisMapper;
 import wj.service.interfaces.IParkingInformation;
+import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
 
@@ -23,6 +25,9 @@ public class ParkingInformationImpl implements IParkingInformation {
 
     @Autowired
     private ParkingRecHisMapper parkingRecHisMapper;
+
+    @Autowired
+    private CalculateRulerMapper calculateRulerMapper;
 /***
  * 获取转态的车位信息
  * **/
@@ -170,7 +175,7 @@ public class ParkingInformationImpl implements IParkingInformation {
         //取出相应字段
         if (a>0){
             //预约用户
-
+        int money;
         }
 
         String status = parking.getParking_status();
@@ -190,7 +195,43 @@ public class ParkingInformationImpl implements IParkingInformation {
     }
 
     /**
-     *
+     *@param parkingTime 停车时长 int
+     * @param userCard 用户身份 1 租期用户  2 预约用户 3.临时用户 （int）
+     * @param
      * */
+    double getMoney(int parkingTime,int userCard){
+        Map<String,Object> map = calculateRulerMapper.getCalculateRuler();
+        if (userCard==1){
+            return 0;
+        }
+        double  money =0;
+        if (userCard==2){
+            //天
+            int day = (int) Math.floor(parkingTime/24);
+            if (day>0){
+                //周
+                int week = (int) Math.floor(day/7);
+                if (week>0){
+                    //月
+                    int month = (int) Math.floor(day/30);
+                    if (month>0){
+                        //半年
+                        int halfYear =(int) Math.floor(month/6);
+                        if (halfYear>0){
+                            //年
+                            int year = (int)Math.floor(halfYear/2);
+                        }
+                    }
+                }
+            }
+            //小时
+            int count = (int)map.get(CarTimeConst.getfield(CarTimeConst.one));
+            money = parkingTime*count;
+            return money;
+        }
+
+
+        return 0;
+    }
 
 }
