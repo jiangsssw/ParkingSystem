@@ -9,7 +9,7 @@ import wj.until.TimeUtil;
 public class DynamicSql {
     private static Logger log = Logger.getLogger(DynamicSql.class);
     public String dynamicParkingRecHSql(ParkingRecHBean bean) throws Exception{
-        StringBuilder sb = new StringBuilder("select * from Select * from parking_rec_his where ");
+        StringBuilder sb = new StringBuilder("Select * from parking_rec_his where ");
         String startTime = bean.getStartTime();
         String endTime = bean.getEndTime();
         String carType = bean.getCarType();
@@ -22,10 +22,14 @@ public class DynamicSql {
             sb.append(userId);
 
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime)){
-            sb.append(" and parking_start_time between");
+            sb.append(" and parking_start_time between ");
+            sb.append("str_to_date( '");
             sb.append(TimeUtil.timeParse(startTime));
+            sb.append("','%Y-%m-%d %H:%i:%S')");
             sb.append( " and ");
+            sb.append("str_to_date( '");
             sb.append(TimeUtil.timeParse(endTime));
+            sb.append("','%Y-%m-%d %H:%i:%S')");
         }
         if (!StringUtils.isEmpty(userCarId)){
             sb.append(" and user_car_id = ");
