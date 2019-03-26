@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import wj.entity.dataBaseMapping.CalculateRuler;
 import wj.entity.dataBaseMapping.CarInformation;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -21,4 +22,11 @@ public interface CalculateRulerMapper {
     @Insert("insert into calculate_ruler values(#{car.rule_id},#{car.hour_mount},#{car.day_mount},#{car.week_mount},#{car.month_mount},#{car.year_mount},#{car.creat_time},#{car.modefiy_peple},#{car.modefiy_id})")
     public int addCarInformation(@Param("car") CalculateRuler car);
 
+    //查询历史的计费规则
+    @Select("select * from calculate_ruler order by DESC limit #{count},10")
+    public List<Map<String,Object>> getAllCalculateInfo(int count);
+
+    //获取数据库总记录条数
+    @Select("select count(*) from calculate_ruler")
+    public int getAllCountFromCalculate();
 }

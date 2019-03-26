@@ -29,4 +29,10 @@ public class Test1 {
         ParkingRecHis[] parkingRecHis = recHis.getParkingRecHis(bean);
         System.out.println("parkingRecHis01"+parkingRecHis[0].toString());
     }
+
+    @Test
+    public void testForCoounts(){
+        int count = recHis.getParkingRecHCounts();
+        System.out.println("counts:"+count);
+    }
 }
