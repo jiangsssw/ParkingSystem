@@ -18,6 +18,8 @@ public class CarUserRec {
     private Timestamp use_end_time;
     private String user_car_id;
     private int parking_time;  //实际停车时间
+    private String phone_id;
+
 
     @Override
     public String toString() {
@@ -27,13 +29,22 @@ public class CarUserRec {
                 ", user_id=" + user_id +
                 ", parking_status='" + parking_status + '\'' +
                 ", pay_type='" + pay_type + '\'' +
-                ", use_start_time=" + TimeUtil.timeFormat(use_start_time) +
+                ", use_start_time=" + use_start_time +
                 ", use_time='" + use_time + '\'' +
                 ", count_money=" + count_money +
-                ", use_end_time=" + TimeUtil.timeFormat(use_end_time) +
+                ", use_end_time=" + use_end_time +
                 ", user_car_id='" + user_car_id + '\'' +
                 ", parking_time=" + parking_time +
+                ", phone_id='" + phone_id + '\'' +
                 '}';
+    }
+
+    public String getPhone_id() {
+        return phone_id;
+    }
+
+    public void setPhone_id(String phone_id) {
+        this.phone_id = phone_id;
     }
 
     public String getCar_parking_id() {
