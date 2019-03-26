@@ -18,6 +18,10 @@ public interface ICarUserRecMapper {
     @SelectProvider(type = DynamicSql.class,method = "dynamicUserRecSql")
     List<Map<String,Object>> getAllUserRec(UserRecBean bean);
 
+    //查询记录总条数
+    @Select("select count(*) from car_use_rec")
+    int getCountsFromUserRec();
+
     //插入用户消费历史
     @Insert("insert into car_use_rec values(#{rec.car_parking_id},#{rec.car_room_number}" +
             ",#{rec.user_id}" +

@@ -5,4 +5,6 @@ import wj.entity.valueBean.ParkingRecHBean;
 
 public interface IParkingRecHis {
     public ParkingRecHis[] getParkingRecHis(ParkingRecHBean bean);
+
+    public int getParkingRecHCounts();
 }
