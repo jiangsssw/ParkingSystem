@@ -16,8 +16,12 @@ public class CarTimeConst {
     public static final String five = "year_mount";
     public static final String six = "year_mount";
 
+    public static final String MANAGE ="02";
+    public static final String NO_MANAGE = "01";
     public static final double freeTax = 0.05;
 
+    public static final String GENERAL = "NO_MANAGE";
+    public static final String NO_GENERAL = "MANAGE";
     public static final int LARGE_MONEY =20000;
     public static String getfield(String status){
         if (ONE_DAY.equals(status)){

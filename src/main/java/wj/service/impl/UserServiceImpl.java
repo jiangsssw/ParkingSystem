@@ -3,10 +3,14 @@ package wj.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.User;
 import wj.mapper.UserMapper;
 import wj.service.interfaces.IUserService;
+import wj.until.CarTimeConst;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -61,4 +65,23 @@ public class UserServiceImpl implements IUserService {
 
         return mapper.findUserByPhoneId(phoneId);
     }
+
+    @Override
+    public String judgeManager(Model model, HttpSession httpSession) {
+        //判断用户权限
+        User user = (User) httpSession.getAttribute("User");
+        if (user.getUser_id()==0|| StringUtils.isEmpty(user.getPhone_id())){
+            //未登陆
+            model.addAttribute("result","用户未登陆");
+            return "NO_LOGIN";
+        }
+        String userType = user.getUser_type();
+        if (CarTimeConst.NO_MANAGE.equals(userType)){
+            model.addAttribute("result","普通用户");
+            return "NO_MANAGE";
+        }
+        model.addAttribute("result","管理员");
+        return "MANAGER";
+    }
+
 }
