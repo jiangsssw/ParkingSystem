@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wj.entity.dataBaseMapping.CalculateRuler;
-import wj.entity.dataBaseMapping.User;
 import wj.entity.valueBean.CalculateRulerBean;
 import wj.mapper.CalculateRulerMapper;
 import wj.service.impl.CalculateRulerImpl;

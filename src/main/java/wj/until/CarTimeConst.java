@@ -22,6 +22,9 @@ public class CarTimeConst {
 
     public static final String GENERAL = "NO_MANAGE";
     public static final String NO_GENERAL = "MANAGE";
+    public static final String UNUSUALLY = "NO_LOGIN";
+
+
     public static final int LARGE_MONEY =20000;
     public static String getfield(String status){
         if (ONE_DAY.equals(status)){

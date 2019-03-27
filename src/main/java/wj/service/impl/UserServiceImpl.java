@@ -80,8 +80,12 @@ public class UserServiceImpl implements IUserService {
             model.addAttribute("result","普通用户");
             return "NO_MANAGE";
         }
-        model.addAttribute("result","管理员");
-        return "MANAGER";
+        if (CarTimeConst.MANAGE.equals(userType)){
+            model.addAttribute("result","管理员");
+            return "MANAGER";
+        }
+        model.addAttribute("result","用户未登陆,未知原因。。");
+        return "NO_LOGIN";
     }
 
 }

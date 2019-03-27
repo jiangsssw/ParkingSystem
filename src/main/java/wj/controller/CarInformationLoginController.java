@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wj.entity.dataBaseMapping.CarInformation;
-import wj.entity.dataBaseMapping.CarRoomInformation;
 import wj.entity.valueBean.CarLogin;
 import wj.mapper.UserMapper;
 import wj.service.interfaces.ICarInformation;
