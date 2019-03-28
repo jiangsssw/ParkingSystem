@@ -16,6 +16,9 @@ public class LoginIntercept implements HandlerInterceptor {
         if (uri.indexOf("/login")>0){
             return true;
         }
+        if (uri.indexOf("/register")>0){
+            return true;
+        }
         HttpSession session = httpServletRequest.getSession();
         User u = (User) session.getAttribute("User");
         if (u!=null){

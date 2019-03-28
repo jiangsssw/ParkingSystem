@@ -12,6 +12,9 @@ public class TimeUtil {
 * 转换时间 timestamp===> yyyyMMddHHMM
 * **/
     public static String timeFormat(Timestamp timestamp){
+        if (timestamp==null){
+            return null;
+        }
         DateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
         return dateformat.format(timestamp);
     }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import wj.entity.dataBaseMapping.CalculateRuler;
 import wj.entity.valueBean.CalculateRulerBean;
 import wj.mapper.CalculateRulerMapper;
@@ -30,8 +32,8 @@ public class CalculateRulerController {
     private UserServiceImpl userService;
 
     //查询计算规则表的历史
-    @RequestMapping("/getCalculateHis")
-    public String getCalculateHis(@PathVariable("page")int page, Model model,HttpSession session ){
+    @RequestMapping(value = "/getCalculateHis",method = RequestMethod.POST)
+    public String getCalculateHis(@RequestParam("page")int page, Model model, HttpSession session ){
         //验证权限
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))) {
 

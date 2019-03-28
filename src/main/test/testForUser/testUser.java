@@ -21,6 +21,7 @@ import wj.until.TimeUtil;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +85,18 @@ if (aaa==null||aaa.length()==0){
 //        System.out.println("shijian"+hour);
 
         //测试收费方法
+
+        User se = new User();
+        se.setUser_id(10002);
+        se.setPassword("12456");
+        se.setPhone_id("13296572589");
+        se.setUser_name("小明3");
+        se.setUser_type("01");
+        se.setUser_address("中国武汉东西湖区");
+        Map<String,Object> map  = new HashMap<>();
+        map.put("mian","20101");
+        map.put("mian2","20101");
+        map.put("USER",se);
+        System.out.println("map"+map.toString());
     }
 }
