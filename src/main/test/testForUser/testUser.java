@@ -1,5 +1,6 @@
 package testForUser;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,5 +99,13 @@ if (aaa==null||aaa.length()==0){
         map.put("mian2","20101");
         map.put("USER",se);
         System.out.println("map"+map.toString());
+    }
+
+    @Test
+    public void testSome(){
+        Us u = new Us();
+        u.setName("aaa");
+
+        System.out.println();
     }
 }

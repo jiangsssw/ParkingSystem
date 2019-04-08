@@ -8,13 +8,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import wj.entity.dataBaseMapping.ParkingInformation;
+import wj.entity.dataBaseMapping.User;
 import wj.mapper.ParkingInformationMapper;
 import wj.service.impl.UserServiceImpl;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
-
-import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
@@ -100,8 +99,21 @@ public class CarParkingInfoController {
         }
         //权限验证
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,httpSession))){
+            //查出车位信息
+            Map map = mapper.findParkingInformationByCarParkingId(parkingId);
 
+           int i =  mapper.deleteParkingInformation(parkingId);
+           if (i>0){
+               log.error("操作人员："+((User)httpSession.getAttribute("User")).getUser_id()+
+               "删除车位信息"+map.toString());
+               model.addAttribute("result","删除成功");
+               return "success";
+           }else {
+               model.addAttribute("result","删除失败");
+               return "error";
+           }
         }
-        return "";
+        model.addAttribute("result","权限失败");
+        return "error";
     }
 }
