@@ -2,6 +2,7 @@ package testForParkingRecHis;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,6 +12,10 @@ import wj.config.TestConfig;
 import wj.entity.dataBaseMapping.ParkingRecHis;
 import wj.entity.valueBean.ParkingRecHBean;
 import wj.service.impl.ParkingRecHisImpl;
+import wj.until.BeanUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class, Appconfig.class})
@@ -27,7 +32,9 @@ public class Test1 {
         bean.setEndTime("201903250000");
         bean.setStartCount(0);
         ParkingRecHis[] parkingRecHis = recHis.getParkingRecHis(bean);
-        System.out.println("parkingRecHis01"+parkingRecHis[0].toString());
+        Map<String,Object> map = new HashMap<>();
+        map= BeanUtils.obj2Map(parkingRecHis[0]);
+        System.out.println(map);
     }
 
     @Test

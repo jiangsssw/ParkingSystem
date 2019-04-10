@@ -36,6 +36,8 @@
             console.log(data);
             if (a==="false"){
                 alert("请查看一下"+data)
+            }else {
+                window.location.href='/parkingSystem/homeIndex'
             }
         };
         xml.send('userInput='+userInput.value+'&password='+password.value+'');

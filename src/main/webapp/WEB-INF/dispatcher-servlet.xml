@@ -23,6 +23,7 @@
     <mvc:resources mapping="/js/**" location="/WEB-INF/statics/js/"/>
     <mvc:resources mapping="/image/**" location="/WEB-INF/statics/image/"/>
 
+    <!--测试临时屏蔽-->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -38,6 +39,12 @@
         <property name="suffix" value=".jsp"/>
         <property name="exposeContextBeansAsAttributes" value="true"/>
     </bean>
+
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="contentType" value="text/html;charset=UTF-8"></property>
+        <property name="suffix" value=".html" />
+    </bean>
+
     <!--<mvc:multipart-config>-->
 
     <!--</mvc:multipart-config>-->

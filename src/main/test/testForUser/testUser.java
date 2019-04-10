@@ -1,5 +1,10 @@
 package testForUser;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONAware;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.JSONAwareSerializer;
+import com.alibaba.fastjson.serializer.JSONSerializerMap;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -11,11 +16,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import wj.config.Appconfig;
 
 import wj.config.TestConfig;
+import wj.entity.dataBaseMapping.Muse;
 import wj.entity.dataBaseMapping.User;
+import wj.mapper.dySql.DynamicSql;
 import wj.service.impl.CarInformationImpl;
 import wj.service.impl.ParkingInformationImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.service.interfaces.IUserService;
+import wj.until.BeanUtils;
 import wj.until.CheckUtil;
 import wj.until.TimeUtil;
 
@@ -50,8 +58,9 @@ public class testUser {
         se.setUser_name("小明3");
         se.setUser_type("01");
         se.setUser_address("中国武汉东西湖区");
-        int a = service.upDateUser(se);
-        System.out.println("数据被更改"+a+"行");
+//        int a = service.upDateUser(se);
+
+        System.out.println("数据被更改"+"行");
     }
     @Test
     public void deleteSomeTest(){
@@ -88,24 +97,28 @@ if (aaa==null||aaa.length()==0){
         //测试收费方法
 
         User se = new User();
-        se.setUser_id(10002);
+//        se.setUser_id(10002);
         se.setPassword("12456");
-        se.setPhone_id("13296572589");
-        se.setUser_name("小明3");
-        se.setUser_type("01");
-        se.setUser_address("中国武汉东西湖区");
-        Map<String,Object> map  = new HashMap<>();
-        map.put("mian","20101");
-        map.put("mian2","20101");
-        map.put("USER",se);
+//        se.setPhone_id("13296572589");
+//        se.setUser_name("小明3");
+//        se.setUser_type("01");
+//        se.setUser_address("中国武汉东西湖区");
+        String json = JSON.toJSONString(se);
+        JSONObject j = JSON.parseObject(json);
+        Map<String,Object> map1 = BeanUtils.obj2Map(se);
+        Map<String,Object> map  = (Map)j;
+//        map.put("mian","20101");
+//        map.put("mian2","20101");
+//        map.put("USER",se);
         System.out.println("map"+map.toString());
     }
 
     @Test
     public void testSome(){
-        Us u = new Us();
-        u.setName("aaa");
+        Muse muse = new Muse();
 
-        System.out.println();
+        DynamicSql sql = new DynamicSql();
+        String s = sql.dynamicMuseSql(muse);
+        System.out.println(s);
     }
 }
