@@ -1,10 +1,17 @@
 package wj.mapper.dySql;
 
+
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
+import wj.entity.dataBaseMapping.Muse;
 import wj.entity.valueBean.ParkingRecHBean;
 import wj.entity.valueBean.UserRecBean;
+import wj.until.BeanUtils;
 import wj.until.TimeUtil;
+import wj.until.TypeUtil;
+
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class DynamicSql {
@@ -86,6 +93,53 @@ public class DynamicSql {
             sb.append(",10");
         }
 
+        return sb.toString();
+    }
+    public String dynamicMuseSql(Muse muse){
+        StringBuilder sb = new StringBuilder("selece * from muse");
+        Map<String,Object> map = BeanUtils.obj2Map(muse);
+        if (map!=null||map.size()>0) {
+            int i = 0;
+//            for (Map.Entry entry : map.entrySet()) {
+//                sb.append(entry.getKey());
+//                sb.append("=");
+//                sb.append(entry.getValue());
+//
+//            }
+            for (Iterator<Map.Entry<String,Object>> it = map.entrySet().iterator();it.hasNext();){
+                Map.Entry<String,Object> entry = it.next();
+
+                String longName = entry.getValue().getClass().toString();
+                String name = longName.substring(longName.lastIndexOf(".")+1);
+                if ("int,long,Integer,Long,Double,double,byte,Byte".contains(name)){
+                    if (Integer.valueOf(TypeUtil.subDocToString(String.valueOf(entry.getValue())))>0){
+                        if (i==0){
+                           sb.append(" where ");
+                            i=1;
+                        }
+                        sb.append(entry.getKey());
+                        sb.append("=");
+                        sb.append(entry.getValue());
+                    }else {
+                        continue;
+                    }
+                }else {
+                    if (i==0){
+                        sb.append(" where ");
+                        i=1;
+                    }
+                    sb.append(entry.getKey());
+                    sb.append("=");
+                    sb.append(entry.getValue());
+                }
+                if (it.hasNext()){
+
+                    if (TypeUtil.isBigThanZero(it.next())){
+                        sb.append(" and ");
+                    }
+                }
+            }
+        }
         return sb.toString();
     }
 }

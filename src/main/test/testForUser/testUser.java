@@ -26,6 +26,7 @@ import wj.service.interfaces.IUserService;
 import wj.until.BeanUtils;
 import wj.until.CheckUtil;
 import wj.until.TimeUtil;
+import wj.until.TypeUtil;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -120,5 +121,11 @@ if (aaa==null||aaa.length()==0){
         DynamicSql sql = new DynamicSql();
         String s = sql.dynamicMuseSql(muse);
         System.out.println(s);
+
+    }
+    @Test
+    public void testSome1(){
+       String a = TypeUtil.subDocToString("81032131.232321");
+       System.out.println("a:"+a);
     }
 }

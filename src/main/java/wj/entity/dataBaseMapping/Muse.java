@@ -12,9 +12,9 @@ public class Muse {
     private String muse_name;
     private int muse_role;
     private String remark;
-    private byte ii ;
+    private double ii ;
 
-    public byte getIi() {
+    public double getIi() {
         return ii;
     }
 
