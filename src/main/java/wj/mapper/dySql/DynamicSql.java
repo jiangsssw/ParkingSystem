@@ -96,7 +96,7 @@ public class DynamicSql {
         return sb.toString();
     }
     public String dynamicMuseSql(Muse muse){
-        StringBuilder sb = new StringBuilder("selece * from muse");
+        StringBuilder sb = new StringBuilder("select * from muse");
         Map<String,Object> map = BeanUtils.obj2Map(muse);
         if (map!=null||map.size()>0) {
             int i = 0;

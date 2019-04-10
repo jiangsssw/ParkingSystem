@@ -12,15 +12,7 @@ public class Muse {
     private String muse_name;
     private int muse_role;
     private String remark;
-    private double ii ;
 
-    public double getIi() {
-        return ii;
-    }
-
-    public void setIi(byte ii) {
-        this.ii = ii;
-    }
 
     public int getMuse_id() {
         return muse_id;

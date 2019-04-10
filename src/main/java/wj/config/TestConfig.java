@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import wj.entity.dataBaseMapping.User;
 import wj.mapper.UserMapper;
+import wj.service.impl.MuseImpl;
 import wj.service.impl.ParkingInformationImpl;
 import wj.service.impl.ParkingRecHisImpl;
 import wj.service.impl.UserServiceImpl;
@@ -32,5 +33,11 @@ public class TestConfig {
     @Profile("RecHis")
     public ParkingRecHisImpl getParkingRecHisImplBean(){
         return new ParkingRecHisImpl();
+    }
+
+    @Bean
+    @Profile("muse")
+    public MuseImpl getMuseImplBean(){
+        return  new MuseImpl();
     }
 }
