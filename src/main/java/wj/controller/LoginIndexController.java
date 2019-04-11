@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import wj.entity.dataBaseMapping.Muse;
 import wj.entity.dataBaseMapping.User;
 import wj.entity.valueBean.Login;
 import wj.entity.valueBean.MuseBean;
+import wj.service.impl.MuseImpl;
 import wj.service.interfaces.IUserService;
 import wj.until.CheckUtil;
 import wj.until.ReflectUtil;
@@ -24,6 +26,9 @@ import java.util.Map;
 
 @Controller
 public class LoginIndexController {
+    @Autowired
+    private MuseImpl museService;
+
     @Autowired
 private IUserService service;
     @RequestMapping(value = "/login",method = RequestMethod.GET)
@@ -64,11 +69,8 @@ private IUserService service;
     }
     @RequestMapping(value = "/homeIndex",method = RequestMethod.GET)
     public String returnhomeIndex(Model model){
-        MuseBean me = new MuseBean();
-        me.setMuseName("车辆管理");
-        me.setMuseUrl("/carGUanli");
-        List<MuseBean> mesuList = new ArrayList<>();
-        mesuList.add(me);
+        MuseBean bean = new MuseBean();
+        List<Muse> mesuList = museService.getAllByBean(bean);
         model.addAttribute("museList",mesuList);
         return "homeIndex";
     }
