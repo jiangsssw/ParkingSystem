@@ -13,6 +13,7 @@ import wj.mapper.CalculateRulerMapper;
 import wj.service.impl.CalculateRulerImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.until.CarTimeConst;
+import wj.until.Resp;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -32,8 +33,8 @@ public class CalculateRulerController {
     private UserServiceImpl userService;
 
     //查询计算规则表的历史
-    @RequestMapping(value = "/getCalculateHis",method = RequestMethod.POST)
-    public String getCalculateHis(@RequestParam("page")int page, Model model, HttpSession session ){
+    @RequestMapping(value = "/getCalculateHis",method = RequestMethod.GET)
+    public Resp getCalculateHis(@RequestParam("page")int page, Model model, HttpSession session ){
         //验证权限
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))) {
 
@@ -44,18 +45,16 @@ public class CalculateRulerController {
             CalculateRuler[] rulers = calculateService.getAllCalculateInfo(count);
             int allCounts = mapper.getAllCountFromCalculate();
             if (allCounts == 0) {
-                model.addAttribute("result", "calculate表为空");
-                return "error";
+                return Resp.error(400, "calculate表为空");
             }
             int allPages = (int) Math.ceil(allCounts / 10);
             Map<String, Object> map = new HashMap<>();
             map.put("rulers", allPages);
             map.put("allPages", allPages);
-            model.addAttribute("resultMap", map);
+            return Resp.OK(0, map);
 
-            return "showCalculateHis";
         }
-        return "error";
+        return Resp.error();
     }
 
     //添加计费规则

@@ -19,13 +19,13 @@
     <div class="main-content">
         <div class="nav-bar">
             <c:forEach items="${museList}" var="muse">
-                <input type="button" value="<c:out value="${muse.museName}"></c:out>"
-                       urlName="<c:out value="${muse.museUrl}"></c:out>" />
+                <input type="button" value="<c:out value="${muse.muse_name}"></c:out>"
+                       urlName="<c:out value="${muse.muse_url}"></c:out>" />
             </c:forEach>
         </div>
     </div>
     <div class="main-frame">
-        <iframe src="/parkingSystem/loginSuccess">
+        <iframe src="/parkingSystem/loginSuccess" height="500px" width="800px">
 
         </iframe>
     </div>

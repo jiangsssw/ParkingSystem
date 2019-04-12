@@ -7,7 +7,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wj.entity.dataBaseMapping.Muse;
 import wj.entity.dataBaseMapping.User;
@@ -20,7 +19,6 @@ import wj.until.ReflectUtil;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,5 +71,9 @@ private IUserService service;
         List<Muse> mesuList = museService.getAllByBean(bean);
         model.addAttribute("museList",mesuList);
         return "homeIndex";
+    }
+    @RequestMapping(value = "/returnManageC",method = RequestMethod.GET)
+    public String returnManageC(){
+        return "manageCalculater";
     }
 }
