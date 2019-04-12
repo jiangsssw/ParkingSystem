@@ -72,8 +72,5 @@ private IUserService service;
         model.addAttribute("museList",mesuList);
         return "homeIndex";
     }
-    @RequestMapping(value = "/returnManageC",method = RequestMethod.GET)
-    public String returnManageC(){
-        return "manageCalculater";
-    }
+
 }

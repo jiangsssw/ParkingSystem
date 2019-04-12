@@ -3,10 +3,7 @@ package wj.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import wj.entity.dataBaseMapping.CalculateRuler;
 import wj.entity.valueBean.CalculateRulerBean;
 import wj.mapper.CalculateRulerMapper;
@@ -34,6 +31,7 @@ public class CalculateRulerController {
 
     //查询计算规则表的历史
     @RequestMapping(value = "/getCalculateHis",method = RequestMethod.GET)
+    @ResponseBody
     public Resp getCalculateHis(@RequestParam("page")int page, Model model, HttpSession session ){
         //验证权限
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))) {
@@ -51,6 +49,7 @@ public class CalculateRulerController {
             Map<String, Object> map = new HashMap<>();
             map.put("rulers", allPages);
             map.put("allPages", allPages);
+            map.put("rulers",rulers);
             return Resp.OK(0, map);
 
         }
@@ -58,12 +57,20 @@ public class CalculateRulerController {
     }
 
     //添加计费规则
-    @RequestMapping("addCalculateRuler")
+    @RequestMapping(value = "addCalculateRuler",method = RequestMethod.POST)
     public String addCalculateRuler(@Valid CalculateRulerBean bean,Model model,HttpSession session){
         //判断用户权限
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))){
             return calculateService.addCalculate(model,bean);
         }
         return "error";
+    }
+
+    @RequestMapping(value = "/returnManageC",method = RequestMethod.GET)
+    public String returnManageC(Model model){
+        //查出最新的记录
+        Map map= mapper.getCalculateRuler();
+        model.addAttribute("map",map);
+        return "manageCalculater";
     }
 }

@@ -18,7 +18,7 @@
             <input class="nav" id="selectH" type="button" value="查询历史计费规则" onclick="selectHis()"/>
             <input class="nav" type="button" value="添加新计费规则" onclick="showCalculate()">
         </div>
-        <div class="content-show">
+        <div class="content-show1">
             <div class="showCaHis">
                 <table class="" align="center">
                     <tr>
@@ -31,8 +31,25 @@
                         <th>创建人</th>
                         <th>创建id</th>
                     </tr>
+                    <tbody id="trT">
 
+                    </tbody>
                 </table>
+            </div>
+        </div>
+
+        <div class="content-show1">
+            <div>
+                <form method="post" action="/parkingSystem/addCalculateRuler">
+                每小时收费： <input type="text" name="hourMount" placeholder="<c:out value="${map.hour_mount}"></c:out>"></br>
+                每天收费： <input type="text" name="dayMount" placeholder="<c:out value="${map.day_mount}"></c:out>"></br>
+                每周收费： <input type="text" name="weekMount" placeholder="<c:out value="${map.week_mount}"></c:out>"></br>
+                每月收费： <input type="text" name="monthMount" placeholder="<c:out value="${map.month_mount}"></c:out>"></br>
+                每年收费： <input type="text" name="yearMount" placeholder="<c:out value="${map.year_mount}"></c:out>"></br>
+                修改人： <input type="text" name="modiflyPeople" placeholder="<c:out value="${map.modefiy_peple}"></c:out>"></br>
+                修改id： <input type="text" name="modiflyId" placeholder="<c:out value="${map.modefiy_id}"></c:out>"></br>
+                    <input type="submit" value="提交">
+                </form>
             </div>
         </div>
 
@@ -40,13 +57,34 @@
 </body>
 <script>
     var selectH = document.querySelector('.showCaHis');
+    var html ="";
+    var tr="<tr>";
+    var trD="</tr>";
     function selectHis() {
         $.ajax({
             url:'/parkingSystem/getCalculateHis?page=1',
             dataType:'json',
             success:function (data) {
-                console.log(data);
+                console.log(data)
+                var dataArry = data.rulers;
+
+                for (var i = 0;i<dataArry.length;i++){
+                    html+=tr+"<td>"+dataArry[i].hour_mount+"</td>"
+                        +"<td>"+dataArry[i].day_mount+"</td>"
+                        +"<td>"+dataArry[i].week_mount+"</td>"
+                        +"<td>"+dataArry[i].month_mount+"</td>"
+                        +"<td>"+dataArry[i].year_mount+"</td>"
+                        +"<td>"+dataArry[i].creat_time+"</td>"
+                        +"<td>"+dataArry[i].modefiy_peple+"</td>"
+                        +"<td>"+dataArry[i].modefiy_id+"</td>"
+                    +trD;
+                }
+                document.querySelector("#trT").innerHTML=html;
+            },
+            error:function (data) {
+                console.log(data)
             }
+
         });
     }
     function showCalculate() {
