@@ -13,6 +13,7 @@ public class LoginIntercept implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String uri = httpServletRequest.getRequestURI();
+        httpServletRequest.setCharacterEncoding("utf-8");
         if (uri.indexOf("/login")>0){
             return true;
         }
@@ -32,7 +33,7 @@ public class LoginIntercept implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-
+        httpServletRequest.setCharacterEncoding("utf-8");
     }
 
     @Override
