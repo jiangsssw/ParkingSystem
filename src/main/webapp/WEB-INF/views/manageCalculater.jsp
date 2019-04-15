@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="content-show1">
+        <div class="content-show2" style="display: none">
             <div>
                 <form method="post" action="/parkingSystem/addCalculateRuler">
                 每小时收费： <input type="text" name="hourMount" placeholder="<c:out value="${map.hour_mount}"></c:out>"></br>
@@ -87,8 +87,16 @@
 
         });
     }
+    var open = false;
+    var show2 = $(".content-show2");
     function showCalculate() {
-
+        open = !open;
+        if (open){
+            console.log(show2);
+            show2[0].style.display='block';
+        }else {
+            show2[0].style.display='none';
+        }
     }
 </script>
 </html>

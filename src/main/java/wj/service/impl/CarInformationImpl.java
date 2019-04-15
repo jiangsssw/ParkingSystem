@@ -26,7 +26,7 @@ public class CarInformationImpl implements ICarInformation {
     @Override
     public boolean savCarInformation(CarLogin carLogin, int userId) {
         CarInformation car = new CarInformation();
-        car.setCar_status(carLogin.getCarStatus());
+        car.setCar_status(userId==999?"02":"01");
         car.setUser_car_id(carLogin.getUserCarId());
         car.setUser_id(userId);
         car.setCreate_time(TimeUtil.getCurrentTimeNow());
