@@ -3,6 +3,7 @@ package wj.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,11 @@ import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.valueBean.CarLogin;
 import wj.mapper.UserMapper;
 import wj.service.interfaces.ICarInformation;
+import wj.until.Resp;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +31,7 @@ public class CarInformationLoginController {
     private UserMapper mapper;
 //登记车辆
     @RequestMapping(value = "/CarInformationLogin",method = RequestMethod.POST)
-    private String loginCarInformation(@Valid CarLogin carLogin, RedirectAttributes model, Errors errors){
+     String loginCarInformation(@Valid CarLogin carLogin, Model model, Errors errors){
         int userId;
         if (errors.hasErrors()){
             System.out.println(errors.getAllErrors().toString());
@@ -42,11 +46,19 @@ public class CarInformationLoginController {
         boolean login = carInformation.savCarInformation(carLogin,userId);
         if (login){
             //登记成功，查询并展示登记信息页面展示
+            List<CarInformation> carList = new ArrayList<>();
             CarInformation[] cars = carInformation.getAllCarInformationByPhonrId(carLogin.getPhoneId());
-            model.addAttribute("carInformations",cars);
-            return "showCarInformation";
+            for (CarInformation car: cars
+                 ) {
+                carList.add(car);
+            }
+            Map<String,Object> map1 = new HashMap<>();
+            map1.put("cars",carList);
+            model.addAttribute("result",Resp.OK(0,map1));
+        }else{
+            model.addAttribute("result", Resp.error("未登录"));
         }
-        return "showfaileCarInformation";
+        return "showCarInformation";
     }
 
     @RequestMapping("/getCheckInCar")

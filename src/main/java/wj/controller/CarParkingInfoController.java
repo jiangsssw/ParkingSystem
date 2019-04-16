@@ -14,6 +14,8 @@ import wj.service.impl.UserServiceImpl;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
+import wj.until.Resp;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
@@ -42,15 +44,15 @@ public class CarParkingInfoController {
             information.setCar_parking_id(parkingId);
             information.setParking_status("01");
             if (parkingInfoService.addParkingInfo(information)){
-                model.addAttribute("result","添加成功");
-                return "success";
+                model.addAttribute("result", Resp.OK("添加成功"));
+                return "showCarInformation";
             }
-            model.addAttribute("result","添加失败，请检查参数");
-            return "error";
+            model.addAttribute("result",Resp.error("添加失败，请检查参数"));
+            return "showCarInformation";
         }
 
-        model.addAttribute("result","权限不够");
-        return "";
+        model.addAttribute("result",Resp.error("添加失败，请检查参数"));
+        return "showCarInformation";
     }
 
     //对车位信息状态的修改
@@ -59,7 +61,7 @@ public class CarParkingInfoController {
         //参数验证
         if (StringUtils.isEmpty(parkingId)||StringUtils.isEmpty(status)){
             model.addAttribute("result","参数校验失败");
-            return "error";
+            return "showCarInformation";
         }
 
         //管理员验证

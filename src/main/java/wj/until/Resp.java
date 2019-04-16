@@ -24,6 +24,7 @@ public class Resp extends HashMap<String,Object> {
 
     public static Resp OK(int code, Map<String,Object> map){
         Resp resp = new Resp();
+        resp.put("msg","操作成功。");
         resp.put("code",code);
         resp.putAll(map);
         return resp;

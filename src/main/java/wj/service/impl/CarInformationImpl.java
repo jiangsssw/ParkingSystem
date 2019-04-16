@@ -3,21 +3,29 @@ package wj.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wj.entity.dataBaseMapping.CarInformation;
+import wj.entity.dataBaseMapping.CarRoomInformation;
 import wj.entity.valueBean.CarLogin;
 import wj.mapper.CarInformationMapper;
+import wj.mapper.CarRoomInformationMapper;
 import wj.service.interfaces.ICarInformation;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class CarInformationImpl implements ICarInformation {
     private static Logger log = Logger.getLogger(CarInformationImpl.class);
     @Autowired
     private CarInformationMapper  mapper;
+
+    @Autowired
+    private CarRoomInformationMapper roomInformationMapper;
 
     /***
      *userId=999,为临时车用户ID
@@ -81,4 +89,13 @@ public class CarInformationImpl implements ICarInformation {
         }
         return false;
     }
+
+    public int addCarRoom(int roomId,int parkingNum,String remark){
+        CarRoomInformation room = new CarRoomInformation();
+        room.setCar_room_number(roomId);
+        room.setCar_parking_num(parkingNum);
+        room.setEXT1(remark);
+        return roomInformationMapper.addCarRoomInformation(room);
+    }
+
 }
