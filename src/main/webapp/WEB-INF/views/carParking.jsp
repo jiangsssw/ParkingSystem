@@ -26,15 +26,16 @@
     </div>
 </body>
 <script>
-    var roomId = $("#roomId")[0].value;
-    var parkingNum = $("#parkingNum")[0].value;
-    var remark = $("#remark")[0].value;
+
     function addCarRoom() {
+        var roomId = $("#roomId")[0].value;
+        var parkingNum = $("#parkingNum")[0].value;
+        var remark = $("#remark")[0].value;
         console.log("value      "+roomId+"v   "+parkingNum+"remark   "+remark);
         $.ajax({
-            type : 'post',
+            type : 'POST',
             url : '/parkingSystem/addCarRoom',
-            dataType:'json',
+            dataType : "json",
             data: {
                 "roomId" : roomId,
                 "parkingNum" : parkingNum,
@@ -44,7 +45,7 @@
                 console.log("success data"+data);
             },
             error : function (error) {
-                console.log("error data"+data);
+                console.log("error data"+error);
             }
         })
     }
