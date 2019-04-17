@@ -20,4 +20,8 @@ public interface CarRoomInformationMapper {
 
     @Select("select * from car_room_information")
     public List<Map<String,Object>> getAllRoom();
+
+    //查询所有的roomId
+    @Select("select car_room_number  from car_room_information")
+    public List<Integer> getAllRoomId();
 }

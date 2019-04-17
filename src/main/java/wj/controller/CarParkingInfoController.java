@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.User;
 import wj.mapper.ParkingInformationMapper;
@@ -33,26 +34,24 @@ public class CarParkingInfoController {
     @Autowired
     private ParkingInformationMapper mapper;
 
-
+    //权限验证
     //添加车位信息
     @RequestMapping(value = "/addParkingInformation",method = RequestMethod.POST)
-    public String addParkingInformation(@Valid String roomId, @Valid String parkingId, Model model, HttpSession session){
+    @ResponseBody
+    public Resp addParkingInformation(@Valid String roomId, @Valid String parkingId,@Valid String status, Model model, HttpSession session){
         //管理员权限验证
-        if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))){
             ParkingInformation information = new ParkingInformation();
             information.setCar_room_number(Integer.valueOf(roomId));
             information.setCar_parking_id(parkingId);
-            information.setParking_status("01");
+            information.setParking_status(status);
             if (parkingInfoService.addParkingInfo(information)){
-                model.addAttribute("result", Resp.OK("添加成功"));
-                return "showCarInformation";
+//                model.addAttribute("result", Resp.OK("添加成功"));
+                return Resp.OK("添加成功！！");
             }
-            model.addAttribute("result",Resp.error("添加失败，请检查参数"));
-            return "showCarInformation";
-        }
+//            model.addAttribute("result",Resp.error("添加失败，请检查参数"));
+            return Resp.error("添加失败");
 
-        model.addAttribute("result",Resp.error("添加失败，请检查参数"));
-        return "showCarInformation";
+
     }
 
     //对车位信息状态的修改

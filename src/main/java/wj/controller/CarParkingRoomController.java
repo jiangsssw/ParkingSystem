@@ -1,12 +1,18 @@
 package wj.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import wj.entity.dataBaseMapping.CarRoomInformation;
+import wj.mapper.CarRoomInformationMapper;
 import wj.service.impl.CarInformationImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.until.CarTimeConst;
@@ -15,6 +21,7 @@ import wj.until.SystemUser;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class CarParkingRoomController {
@@ -25,6 +32,10 @@ public class CarParkingRoomController {
 
     @Autowired
     private CarInformationImpl carService;
+
+    @Autowired
+    private CarRoomInformationMapper roomInformationMapper;
+
     //添加车库
     @RequestMapping(value = "/addCarRoom",method = RequestMethod.POST)
     @ResponseBody
@@ -40,8 +51,35 @@ public class CarParkingRoomController {
            }
     }
 
+    //权限验证
+    @RequestMapping(value = "/getAllCarRoom",method = RequestMethod.GET)
+    public String getAllCarRoom(Model model){
+        //拿到所有的停车位的信息
+        List<CarRoomInformation> carList =  carService.getAllCarRoom();
+        log.error("/getAllCarRoom 出参为---->"+ JSONArray.toJSONString(carList));
+        model.addAttribute("carList",carList);
+        return "carInfo/carRoomManage";
+    }
+
+    //-->删除数据
+    //权限验证
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteRoomId",method = RequestMethod.POST)
+    public Resp deleteRoomId(@Valid int roomId){
+        int i = carService.deleteRoomId(roomId);
+        if (i>0){
+            return Resp.Ok();
+        }
+        return Resp.error("操作失败");
+    }
+
+    //权限验证
     @RequestMapping(value = "/getCarParking",method = RequestMethod.GET)
-    public String getCarParking(){
+    public String getCarParking(Model model){
+        //查出所有的roomID
+        List<Integer> list = roomInformationMapper.getAllRoomId();
+        model.addAttribute("roomList",list);
         return "carParking";
     }
 }
