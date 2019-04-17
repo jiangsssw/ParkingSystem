@@ -103,7 +103,6 @@ public class CarParkingInfoController {
         if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,httpSession))){
             //查出车位信息
             Map map = mapper.findParkingInformationByCarParkingId(parkingId);
-
            int i =  mapper.deleteParkingInformation(parkingId);
            if (i>0){
                log.error("操作人员："+((User)httpSession.getAttribute("User")).getUser_id()+
