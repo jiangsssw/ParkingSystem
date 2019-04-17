@@ -63,7 +63,6 @@ public class CarInformationLoginController {
 
     @RequestMapping("/getCheckInCar")
     public String getCheckInCar(){
-
         return "checkInCar";
     }
 
