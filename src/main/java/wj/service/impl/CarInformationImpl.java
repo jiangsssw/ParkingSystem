@@ -9,11 +9,13 @@ import wj.entity.dataBaseMapping.CarRoomInformation;
 import wj.entity.valueBean.CarLogin;
 import wj.mapper.CarInformationMapper;
 import wj.mapper.CarRoomInformationMapper;
+import wj.mapper.ParkingInformationMapper;
 import wj.service.interfaces.ICarInformation;
 import wj.until.ReflectUtil;
 import wj.until.TimeUtil;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,8 @@ public class CarInformationImpl implements ICarInformation {
 
     @Autowired
     private CarRoomInformationMapper roomInformationMapper;
-
+    @Autowired
+    private ParkingInformationMapper parkingInformationMapper;
     /***
      *userId=999,为临时车用户ID
      */
@@ -96,6 +99,41 @@ public class CarInformationImpl implements ICarInformation {
         room.setCar_parking_num(parkingNum);
         room.setEXT1(remark);
         return roomInformationMapper.addCarRoomInformation(room);
+    }
+
+    public List<CarRoomInformation> getAllCarRoom(){
+        List<Map<String,Object>> roomsMap=roomInformationMapper.getAllRoom();
+        if (roomsMap!=null&&roomsMap.size()>0){
+            List<CarRoomInformation>  list = new ArrayList<>();
+            for (Map<String,Object> map : roomsMap){
+                CarRoomInformation information = new CarRoomInformation();
+                try {
+                    ReflectUtil.mapToObject(map,information);
+                }catch (Exception e){
+                    log.error("map convert pojo error--->"+e.getMessage());
+                    continue;
+                }
+                list.add(information);
+            }
+            return list;
+        }
+        return null;
+    }
+
+    public int deleteRoomId(int roomId){
+        //删除车位信息表的 所有该仓库的车位
+        int j = parkingInformationMapper.deleteParkingInformationByRoomId(roomId);
+        if (j==0){
+            log.error("deleteRoomId删除车位失败 roomId-->"+roomId);
+            return 0;
+        }
+        //删除车库表的车库信息
+        int i = roomInformationMapper.deleteRoomInformation(roomId);
+        if (i==0){
+            log.error("deleteRoomId删除车库表失败 roomId-->"+roomId);
+            return 0;
+        }
+        return i;
     }
 
 }

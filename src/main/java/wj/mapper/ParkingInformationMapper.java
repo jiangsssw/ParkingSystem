@@ -33,6 +33,10 @@ public interface ParkingInformationMapper {
     @Delete("delete from parking_information where car_parking_id=#{id}")
     public int deleteParkingInformation(String id);
 
+    //删除车位信息
+    @Delete("delete from parking_information where car_room_number=#{id}")
+    public int deleteParkingInformationByRoomId(int id);
+
     //查找所有空闲的停车位
     @Select("select * from parking_information where parking_status=#{status}")
     public List<Map> findParkingInformationByStatus(String status);

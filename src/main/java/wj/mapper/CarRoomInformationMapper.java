@@ -1,11 +1,12 @@
 package wj.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import wj.entity.dataBaseMapping.User;
+
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public interface CarRoomInformationMapper {
     //添加车位信息
@@ -17,4 +18,6 @@ public interface CarRoomInformationMapper {
     @Delete("delete from car_room_information where car_room_number=#{id}")
     public int deleteRoomInformation(int id);
 
+    @Select("select * from car_room_information")
+    public List<Map<String,Object>> getAllRoom();
 }

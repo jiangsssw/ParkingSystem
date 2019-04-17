@@ -20,10 +20,13 @@
                 <li>车辆数量：<input id="parkingNum" type="number" name="parkingNum"/></li>
                 <li>备注： <input id="remark" type="text" name="remark"/></li>
             </ul>
-            <input type="button" value="添加" onclick="addCarRoom()" >
+            <input type="button" value="添加" onclick="addCarRoom()">
         </div>
 
     </div>
+    <iframe src="">
+
+    </iframe>
 </body>
 <script>
 
@@ -42,7 +45,9 @@
                 "remark" : remark
             },
             success : function (data) {
-                console.log("success data"+data);
+                if (data.code==0){
+                    alert(data.msg);
+                }
             },
             error : function (error) {
                 console.log("error data"+error);
