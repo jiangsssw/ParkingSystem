@@ -1,5 +1,7 @@
 package wj.until;
 
+import org.springframework.util.StringUtils;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,6 +20,16 @@ public class TimeUtil {
         DateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmm");
         return dateformat.format(timestamp);
     }
+
+    public static String timeTrans(Timestamp timestamp){
+        String time = timeFormat(timestamp);
+        if (StringUtils.isEmpty(time)){
+            return time;
+        }
+        return time.substring(0,4)+"-"+time.substring(4,6)+"-"+time.substring(6,8)+" "
+                +time.substring(8,10)+":"+time.substring(10,12);
+    }
+
     /*
     * 转换时间 timestamp===> yyyyMMddHHMM
     * **/

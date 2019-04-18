@@ -44,7 +44,7 @@
             <li><input type="button" value="添加" onclick="addParkingCar()"/></li>
         </ul>
     </div>
-    <iframe src="/parkingSystem/getAllCarRoom">
+    <iframe class="dealWith" src="/parkingSystem/getAllCarRoom" width="700px" height="500px">
 
     </iframe>
 </body>
@@ -71,8 +71,7 @@
                 if (d.code==0){
                     alert(d.msg);
                     //<iframe src="/parkingSystem/getAllCarRoom">
-
-
+                    $(".dealWith")[0].src="/parkingSystem/getParkingsOfCarRoom?roomId=0&parkingId="+rooNumber;
                 }else {
                     alert(d.msg);
                     return ;

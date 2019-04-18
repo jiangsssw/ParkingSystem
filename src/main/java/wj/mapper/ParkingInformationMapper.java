@@ -56,4 +56,7 @@ public interface ParkingInformationMapper {
     //查找某个车库下的停车位信息状态
     @Select("select * from parking_information where car_room_number=#{car_room_number}")
     public List<Map> findParkingInformationByCarRoom(int car_room_number);
+
+    @Select("select count(car_room_number) from parking_information")
+    public int getCountOfRoom(int room);
 }

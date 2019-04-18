@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.User;
+import wj.entity.valueBean.ParkingInfoBean;
 import wj.mapper.ParkingInformationMapper;
 import wj.service.impl.UserServiceImpl;
 import wj.service.interfaces.IParkingInformation;
@@ -19,6 +20,7 @@ import wj.until.Resp;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -44,12 +46,12 @@ public class CarParkingInfoController {
             information.setCar_room_number(Integer.valueOf(roomId));
             information.setCar_parking_id(parkingId);
             information.setParking_status(status);
-            if (parkingInfoService.addParkingInfo(information)){
+
 //                model.addAttribute("result", Resp.OK("添加成功"));
-                return Resp.OK("添加成功！！");
-            }
+                return parkingInfoService.addParkingInfo(information);
+
 //            model.addAttribute("result",Resp.error("添加失败，请检查参数"));
-            return Resp.error("添加失败");
+
 
 
     }
@@ -115,5 +117,15 @@ public class CarParkingInfoController {
         }
         model.addAttribute("result","权限失败");
         return "error";
+    }
+
+    //加权限验证
+    //获取某个车库下的所有车位信息
+    @RequestMapping(value = "/getParkingsOfCarRoom")
+    public String getParkingsOfCarRoom(@Valid int roomId,@Valid String parkingId, Model model){
+        //验证参数，
+        List<ParkingInfoBean> list = parkingInfoService.getAllCarByRoomIdAndParkingId(roomId, parkingId);
+        model.addAttribute("list",list);
+        return "/carInfo/ParkingsOfCarRoom";
     }
 }

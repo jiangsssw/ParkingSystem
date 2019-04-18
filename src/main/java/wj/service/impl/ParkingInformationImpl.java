@@ -4,20 +4,27 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.ParkingRecHis;
+import wj.entity.valueBean.ParkingInfoBean;
 import wj.mapper.CalculateRulerMapper;
+import wj.mapper.CarRoomInformationMapper;
 import wj.mapper.ParkingInformationMapper;
 import wj.mapper.ParkingRecHisMapper;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
+import wj.until.Resp;
 import wj.until.TimeUtil;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class ParkingInformationImpl implements IParkingInformation {
     private static Logger log = Logger.getLogger(ParkingInformationImpl.class);
@@ -29,6 +36,9 @@ public class ParkingInformationImpl implements IParkingInformation {
 
     @Autowired
     private CalculateRulerMapper calculateRulerMapper;
+
+    @Autowired
+    private CarRoomInformationMapper roomMapper;
 /***
  * 获取转态的车位信息
  * **/
@@ -94,15 +104,25 @@ public class ParkingInformationImpl implements IParkingInformation {
     }
 
     @Override
-    public boolean addParkingInfo(ParkingInformation information) {
+    public Resp addParkingInfo(ParkingInformation information) {
         if (information.getCar_parking_id()!=null){
+            //判断该库是否已经满了
+            int count = mapper.getCountOfRoom(information.getCar_room_number());
+            Map<String,Object> map = roomMapper.getAllRoomByroomId(information.getCar_room_number());
+            if (map==null||map.size()==0){
+                return Resp.error("请先添加该车所属的车库");
+            }
+            int roomSize = (int)map.get("car_parking_num");
+            if (count>=roomSize){
+                return Resp.error("该车库已满请添加到别的库");
+            }
             int i = mapper.addParkingInformation(information);
             if (i>0){
                 log.error("添加车位信息："+information.toString()+"返回"+i);
-                return true;
+                return Resp.OK("添加成功");
             }
         }
-        return false;
+        return Resp.error("添加失败。。。");
     }
 
     @Override
@@ -290,5 +310,71 @@ public class ParkingInformationImpl implements IParkingInformation {
             //小时
             money = parkingTime*hourCount;
             return money;
+    }
+
+    //通过parkingId查询车位信息
+    public List<ParkingInformation> getAllCarByParkingId(String parkingId){
+        if (!StringUtils.isEmpty(parkingId)){
+            List<ParkingInformation> informationList = new ArrayList<>();
+            Map map = mapper.findParkingInformationByCarParkingId(parkingId);
+            ParkingInformation information = new ParkingInformation();
+            try {
+                ReflectUtil.mapToObject(map,information);
+            }catch (Exception e){
+                log.error("getAllCarByParkingId--->map convert pojo failed..msg--->" +
+                        e.getMessage());
+                return null;
+            }
+            informationList.add(information);
+            return informationList;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ParkingInfoBean> getAllCarByRoomIdAndParkingId(int roomId, String parkingId) {
+        List<ParkingInfoBean> list = new ArrayList<>();
+        //参数验证
+        if(roomId!=0&& StringUtils.isEmpty(parkingId)){
+            ParkingInformation[] parkings =  getAllCarInfoInRoom(roomId);
+            for (ParkingInformation info: parkings) {
+                ParkingInfoBean bean = setParkingInfomationToBean(info);
+                list.add(bean);
+            }
+            return list;
+        }
+        if (roomId==0&&!StringUtils.isEmpty(parkingId)){
+            List<ParkingInformation> informationList = getAllCarByParkingId(parkingId);
+            for (ParkingInformation info : informationList){
+                ParkingInfoBean bean = setParkingInfomationToBean(info);
+                list.add(bean);
+            }
+            return list;
+        }
+        if (roomId!=0&&!StringUtils.isEmpty(parkingId)){
+            List<ParkingInformation> informationList = getAllCarByParkingId(parkingId);
+            for (ParkingInformation info : informationList){
+                ParkingInfoBean bean = setParkingInfomationToBean(info);
+                list.add(bean);
+            }
+            return list;
+        }
+        return null;
+    }
+
+    public ParkingInfoBean setParkingInfomationToBean(ParkingInformation info){
+        ParkingInfoBean bean = new ParkingInfoBean();
+        bean.setCarType(CarTimeConst.transCar_Type(info.getCar_type()));
+        bean.setIsSubscription(CarTimeConst.transIs_Subscription(info.getIs_subscription()));
+        bean.setParkingId(info.getCar_parking_id());
+        bean.setParkingStatus(CarTimeConst.transParking_Status(info.getParking_status()));
+        bean.setPayType(CarTimeConst.transPay_Type(info.getPay_type()));
+        bean.setRoomId(info.getCar_room_number());
+        bean.setUserCarId(info.getUser_car_id());
+        bean.setUserId(String.valueOf(info.getUser_id()));
+        bean.setUseStartTime(TimeUtil.timeTrans(info.getUse_start_time()));
+        bean.setUseType(CarTimeConst.transUse_Time(info.getUse_time()));
+        return bean;
     }
 }

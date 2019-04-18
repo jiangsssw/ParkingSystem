@@ -125,7 +125,9 @@ if (aaa==null||aaa.length()==0){
     }
     @Test
     public void testSome1(){
-       String a = TypeUtil.subDocToString("81032131.232321");
-       System.out.println("a:"+a);
+        String time = "201808091530";
+        String r = time.substring(0,4)+"-"+time.substring(4,6)+"-"+time.substring(6,8)+" "
+                +time.substring(8,10)+":"+time.substring(10,12);
+        System.out.println(r);
     }
 }

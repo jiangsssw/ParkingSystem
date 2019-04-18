@@ -24,4 +24,8 @@ public interface CarRoomInformationMapper {
     //查询所有的roomId
     @Select("select car_room_number  from car_room_information")
     public List<Integer> getAllRoomId();
+
+    //查询所有的roomId
+    @Select("select *  from car_room_information where car_room_number=#{num}")
+    public Map<String,Object> getAllRoomByroomId(int num);
 }
