@@ -35,22 +35,22 @@
                 <th>预约状态</th>
                 <th>操作</th>
             </tr>
-            <tbody>
+            <tbody class="table-body">
             <c:forEach items="${list}" var="li">
                 <tr>
                     <td>${li.roomId}</td>
                     <td>${li.parkingId}</td>
                     <td>${li.userId}</td>
-                    <td>${li.parkingStatus}</td>
+                    <td><a>${li.parkingStatus}</a></td>
                     <td>${li.payType}</td>
                     <td>${li.useStartTime}</td>
                     <td>${li.useType}</td>
                     <td>${li.userCarId}</td>
                     <td>${li.carType}</td>
-                    <td>${li.isSubscription}</td>
+                    <td><a>${li.isSubscription}</a></td>
                     <td>
-                        <input type="button" value="修改" >
-                        <input type="button" value="删除" >
+                        <input type="button" name="update" value="修改" >
+                        <input type="button" name="delete" value="删除" >
                     </td>
                 </tr>
             </c:forEach>
@@ -74,8 +74,56 @@
         }
     }
 
-    //添加修改的部分
+    //定义当前修改窗口的值parkingId;
+    var parkingIdPoint=null;
 
+    //添加修改的部分...............................>TODO 逻辑混乱需要重新想
+    $(".content2")[0].onclick=function (e) {
+        var target = e.target.getAttribute("name");
+        var parkingValue = e.path[2].children[1].firstChild.data;
+        if (target=="update"||target=="delete"){
+
+            //如果当前的parkingId不对等则关闭修改窗口
+            if(parkingValue!=parkingIdPoint){
+                var reChail =e.path[2].nextElementSibling;
+                console.log('parkingIdPoint:'+parkingIdPoint);
+                if (reChail.nodeName=="DIV"){
+                    e.path[3].removeChild(reChail);
+                    return ;
+                }
+            }
+        }
+        if (target=="update"){
+            parkingIdPoint=parkingValue;
+            //判断是否一点击过修改
+            if (e.path[2].nextElementSibling.nodeName=="DIV"){
+                return;
+            }
+            var isSub = e.path[2].children[9].firstChild;
+           //改车辆预约状态
+            var isSubNew = document.createElement("input");
+                isSubNew.type="text";
+                isSubNew.placeholder=(isSub.data==null?"":isSub.data);
+            e.path[2].children[9].replaceChild(isSubNew,isSub);
+            //改车辆状态
+            var parkingStatus = e.path[2].children[3].firstChild;
+            var parkingStatusNew = document.createElement("input");
+                parkingStatusNew.type="text";
+                parkingStatusNew.placeholder=(parkingStatus.data==null?"":parkingStatus.data);
+                e.path[2].children[3].replaceChild(parkingStatusNew,parkingStatus);
+            var updateNode = document.createElement("input");
+            updateNode.type="button";
+            updateNode.value="提交修改";
+            var cancelNode = document.createElement("input");
+            cancelNode.type="button";
+            cancelNode.value="取消";
+            var divNode = document.createElement("div");
+            divNode.appendChild(cancelNode);
+            divNode.appendChild(updateNode);
+            var parent = e.path[3];
+            parent.insertBefore(divNode,e.path[2].nextElementSibling);
+        }
+    }
 
 </script>
 </html>
