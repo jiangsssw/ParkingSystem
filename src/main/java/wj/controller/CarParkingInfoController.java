@@ -118,7 +118,6 @@ public class CarParkingInfoController {
 //               model.addAttribute("result","删除失败");
                return Resp.error("删除失败");
            }
-
 //        model.addAttribute("result","权限失败");
 //        return "error";
     }
