@@ -57,66 +57,70 @@ public class CarParkingInfoController {
     }
 
     //对车位信息状态的修改
+    //权限验证
     @RequestMapping(value = "/modifyParkingInfo",method = RequestMethod.POST)
-    public String modifyParkingInfo(@Valid String parkingId, @Valid String status, HttpSession session,Model model){
+    @ResponseBody
+    public Resp modifyParkingInfo(@Valid String parkingId, @Valid String status,@Valid int subscriptionStatus, HttpSession session,Model model){
         //参数验证
         if (StringUtils.isEmpty(parkingId)||StringUtils.isEmpty(status)){
-            model.addAttribute("result","参数校验失败");
-            return "showCarInformation";
+//            model.addAttribute("result","参数校验失败");
+            return Resp.error("参数校验失败");
         }
 
         //管理员验证
-        if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,session))){
             //查出这个车位信息
             Map map = mapper.findParkingInformationByCarParkingId(parkingId);
             if (map==null||map.size()==0){
-                model.addAttribute("result","没找到这个车位");
-                return "error";
+//                model.addAttribute("result","没找到这个车位");
+                log.error("修改parkingId-->"+parkingId+"失败，原因：没有找到对应的数据 ");
+                return Resp.error("修改失败。");
             }
             ParkingInformation information = new ParkingInformation();
             ReflectUtil.mapToObject(map,information);
             information.setParking_status(status);
+            information.setIs_subscription(subscriptionStatus);
             //修改车位转态信息
             int i = mapper.updateParkingInformation(information);
             if (i>0){
                 log.error("修改后的车位信息："+information.toString());
-                return "successModifyParkingInfo";
+                return Resp.OK("修改成功。。");
             }else {
                 log.error("修改失败");
-                model.addAttribute("result","修改信息失败");
-                return "error";
+//                model.addAttribute("result","修改信息失败");
+                return Resp.error("修改失败，，");
             }
-        }
 
-        model.addAttribute("result","权限不够");
-        return "";
+
+//        model.addAttribute("result","权限不够");
+//        return "";
     }
 
+    //权限验证
     //删除车位信息
     @RequestMapping(value = "/deleteParkingInfo",method = RequestMethod.POST)
-    public String deleteParkingInfo(@Valid String parkingId,Model model,HttpSession httpSession){
+    @ResponseBody
+    public Resp deleteParkingInfo(@Valid String parkingId,Model model,HttpSession httpSession){
         //参数验证
         if (StringUtils.isEmpty(parkingId)){
             model.addAttribute("result","校验参数失败");
-            return "error";
+            return Resp.error("参数校验失败");
         }
         //权限验证
-        if (CarTimeConst.NO_GENERAL.equals(userService.judgeManager(model,httpSession))){
             //查出车位信息
             Map map = mapper.findParkingInformationByCarParkingId(parkingId);
            int i =  mapper.deleteParkingInformation(parkingId);
            if (i>0){
-               log.error("操作人员："+((User)httpSession.getAttribute("User")).getUser_id()+
+               log.error("操作人员："+
                "删除车位信息"+map.toString());
-               model.addAttribute("result","删除成功");
-               return "success";
+//               model.addAttribute("result","删除成功");
+               return Resp.OK("删除成功");
            }else {
-               model.addAttribute("result","删除失败");
-               return "error";
+//               model.addAttribute("result","删除失败");
+               return Resp.error("删除失败");
            }
-        }
-        model.addAttribute("result","权限失败");
-        return "error";
+
+//        model.addAttribute("result","权限失败");
+//        return "error";
     }
 
     //加权限验证

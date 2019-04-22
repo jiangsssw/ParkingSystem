@@ -2,6 +2,7 @@ package wj.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.dataBaseMapping.ParkingInformation;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Transactional
 public interface ParkingInformationMapper {
     //添加停车位信息
     @Insert("insert into parking_information values(#{parking.car_parking_id},#{parking.car_room_number},#{parking.user_id},#{parking.parking_status},#{parking.pay_type},#{parking.use_start_time},#{parking.use_time},#{parking.count_money},#{parking.user_car_id},#{parking.car_type},#{parking.is_subscription})")
@@ -24,9 +26,9 @@ public interface ParkingInformationMapper {
             "use_time=#{parking.use_time}, " +
             "count_money=#{parking.count_money}, " +
             "user_car_id=#{parking.user_car_id}, " +
-            "car_type=#{parking.car_type} " +
+            "car_type=#{parking.car_type}," +
             "is_subscription=#{parking.is_subscription}"+
-            "where where car_parking_id=#{parking.car_parking_id}")
+            " where car_parking_id=#{parking.car_parking_id}")
     public int updateParkingInformation(@Param("parking") ParkingInformation parking);
 
     //删除车位信息
