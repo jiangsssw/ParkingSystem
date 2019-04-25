@@ -4,7 +4,7 @@ package wj.mapper.dySql;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.Muse;
-import wj.entity.valueBean.ParkingRecHBean;
+import wj.entity.valueBean.ReqParkingRecHBean;
 import wj.entity.valueBean.UserRecBean;
 import wj.until.BeanUtils;
 import wj.until.TimeUtil;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class DynamicSql {
     private static Logger log = Logger.getLogger(DynamicSql.class);
-    public String dynamicParkingRecHSql(ParkingRecHBean bean) throws Exception{
+    public String dynamicParkingRecHSql(ReqParkingRecHBean bean) throws Exception{
         StringBuilder sb = new StringBuilder("Select * from parking_rec_his where ");
         String startTime = bean.getStartTime();
         String endTime = bean.getEndTime();

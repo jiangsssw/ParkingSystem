@@ -1,6 +1,6 @@
 package wj.entity.valueBean;
 
-public class ParkingRecHBean {
+public class ReqParkingRecHBean {
 //    UserId	int
 //    userCarId	String
 //    phoneId	String
@@ -17,7 +17,7 @@ public class ParkingRecHBean {
 
     @Override
     public String toString() {
-        return "ParkingRecHBean{" +
+        return "ReqParkingRecHBean{" +
                 "userId=" + userId +
                 ", userCarId=" + userCarId +
                 ", phoneId=" + phoneId +

@@ -3,7 +3,7 @@ package wj.mapper;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import wj.entity.dataBaseMapping.ParkingRecHis;
-import wj.entity.valueBean.ParkingRecHBean;
+import wj.entity.valueBean.ReqParkingRecHBean;
 import wj.mapper.dySql.DynamicSql;
 
 import java.util.List;
@@ -21,5 +21,5 @@ public interface ParkingRecHisMapper {
 
     //查询历史停车信息  (分页查询)
     @SelectProvider(type = DynamicSql.class,method = "dynamicParkingRecHSql")
-    List<Map<String,Object>> getParkingRecH(ParkingRecHBean bean);
+    List<Map<String,Object>> getParkingRecH(ReqParkingRecHBean bean);
 }

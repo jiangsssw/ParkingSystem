@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import wj.config.Appconfig;
 import wj.config.TestConfig;
 import wj.entity.dataBaseMapping.ParkingRecHis;
-import wj.entity.valueBean.ParkingRecHBean;
+import wj.entity.valueBean.ReqParkingRecHBean;
 import wj.service.impl.ParkingRecHisImpl;
 import wj.until.BeanUtils;
 
@@ -26,7 +26,7 @@ public class Test1 {
     @Test
     public void testForRec()throws Exception{
 
-        ParkingRecHBean bean = new ParkingRecHBean();
+        ReqParkingRecHBean bean = new ReqParkingRecHBean();
         bean.setUserId(10001);
         bean.setStartTime("201903200000");
         bean.setEndTime("201903250000");

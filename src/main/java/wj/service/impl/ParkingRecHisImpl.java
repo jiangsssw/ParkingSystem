@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.ParkingRecHis;
-import wj.entity.valueBean.ParkingRecHBean;
+import wj.entity.valueBean.ReqParkingRecHBean;
 import wj.mapper.ParkingRecHisMapper;
 import wj.service.interfaces.IParkingRecHis;
 import wj.until.ReflectUtil;
@@ -21,7 +21,7 @@ public class ParkingRecHisImpl implements IParkingRecHis {
     ParkingRecHisMapper mapper;
 
     @Override
-    public ParkingRecHis[] getParkingRecHis(ParkingRecHBean bean) {
+    public ParkingRecHis[] getParkingRecHis(ReqParkingRecHBean bean) {
 
         log.error("ParkingRecHisImpl.getParkingRecHis的入参---》"+bean.toString());
         List<Map<String, Object>> list = mapper.getParkingRecH(bean);
