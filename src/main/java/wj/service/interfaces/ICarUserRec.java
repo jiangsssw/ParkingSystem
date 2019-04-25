@@ -1,8 +1,8 @@
 package wj.service.interfaces;
 
 import wj.entity.dataBaseMapping.CarUserRec;
-import wj.entity.valueBean.UserRecBean;
+import wj.entity.valueBean.ReqUserRecBean;
 
 public interface ICarUserRec {
-    public CarUserRec[] getAllUserRecInfo(UserRecBean bean);
+    public CarUserRec[] getAllUserRecInfo(ReqUserRecBean bean);
 }

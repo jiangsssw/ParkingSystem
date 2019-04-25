@@ -71,6 +71,6 @@ public class CalculateRulerController {
         //查出最新的记录
         Map map= mapper.getCalculateRuler();
         model.addAttribute("map",map);
-        return "manageCalculater";
+        return "systemUser/manageCalculater";
     }
 }

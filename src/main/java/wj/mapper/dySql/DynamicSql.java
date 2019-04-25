@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.Muse;
 import wj.entity.valueBean.ReqParkingRecHBean;
-import wj.entity.valueBean.UserRecBean;
+import wj.entity.valueBean.ReqUserRecBean;
 import wj.until.BeanUtils;
 import wj.until.TimeUtil;
 import wj.until.TypeUtil;
@@ -54,7 +54,7 @@ public class DynamicSql {
         return sb.toString();
     }
 
-    public String dynamicUserRecSql(UserRecBean bean) throws Exception{
+    public String dynamicUserRecSql(ReqUserRecBean bean) throws Exception{
         int userId = bean.getUserId();
         String userCarId = bean.getUserCarId();
         String phoneId = bean.getPhoneId();

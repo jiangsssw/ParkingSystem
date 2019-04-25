@@ -1,6 +1,6 @@
 package wj.entity.valueBean;
 
-public class UserRecBean {
+public class ReqUserRecBean {
 //    UserId	int	用户ID		是
 //    userCarId	String 	车牌号		是
 //    phoneId	String	电话号码		是
@@ -16,7 +16,7 @@ public class UserRecBean {
     private int startCount;// -1 不分页,>=0分页
     @Override
     public String toString() {
-        return "UserRecBean{" +
+        return "ReqUserRecBean{" +
                 "UserId=" + UserId +
                 ", userCarId='" + userCarId + '\'' +
                 ", phoneId='" + phoneId + '\'' +

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 import wj.entity.dataBaseMapping.CarUserRec;
-import wj.entity.valueBean.UserRecBean;
+import wj.entity.valueBean.ReqUserRecBean;
 import wj.mapper.dySql.DynamicSql;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Map;
 public interface ICarUserRecMapper {
     //查询用户消费历史
     @SelectProvider(type = DynamicSql.class,method = "dynamicUserRecSql")
-    List<Map<String,Object>> getAllUserRec(UserRecBean bean);
+    List<Map<String,Object>> getAllUserRec(ReqUserRecBean bean);
 
     //查询记录总条数
     @Select("select count(*) from car_use_rec")
