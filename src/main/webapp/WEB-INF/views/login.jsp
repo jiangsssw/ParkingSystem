@@ -14,7 +14,6 @@
 自定义表单验证:
 <!--<form name="f" action="/login" method="post">-->
 <form name="f" >
-    hellow
     <br/>
     用户名:
     <input id="userInput" type="text" name="userInput" placeholder="用户Id或手机号"><br/>
@@ -22,6 +21,7 @@
     <input id="password" type="password" name="password" placeholder="password"><br/>
     <input id="submit" name="submit" type="button" value="提交">
 </form>
+<span><a href="/parkingSystem/register">注册</a></span>
 </body>
 <script>
 
@@ -35,7 +35,7 @@
             var a = xml.responseText;
             console.log(data);
             if (a==="false"){
-                alert("请查看一下"+data)
+                alert("用户名或密码错误，请检查一下")
             }else {
                 window.location.href='/parkingSystem/homeIndex'
             }

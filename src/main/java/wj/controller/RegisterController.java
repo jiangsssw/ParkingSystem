@@ -5,11 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wj.entity.dataBaseMapping.User;
 import wj.entity.valueBean.Register;
 import wj.mapper.UserMapper;
 import wj.service.interfaces.IUserService;
+import wj.until.Resp;
 import wj.until.TimeUtil;
 
 import javax.validation.Valid;
@@ -30,9 +32,10 @@ public class RegisterController {
 
     //注册
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String getRegister(@Valid Register register, RedirectAttributes model, Errors errors){
+    @ResponseBody
+    public Resp getRegister(@Valid Register register, RedirectAttributes model, Errors errors){
         if (errors.hasErrors()){
-            System.out.println(errors.getAllErrors().toString());
+            return Resp.error("未知原因");
         }
         Map<String,String> result = new HashMap<>();
 
@@ -43,7 +46,7 @@ public class RegisterController {
         String username = register.getUsername();
         if (password.length()<6){
             result.put("reason","密码不符合要求，请重新输入");
-            model.addAttribute("result",result);
+            return Resp.error("密码不符合要求，请重新输入");
         }
         List<Map> isExist = mapper.findUserByPhoneId(phoneId);
         if (isExist==null||isExist.size()==0){
@@ -57,9 +60,16 @@ public class RegisterController {
             u.setRegister_time(TimeUtil.getCurrentTimeNow());
             u.setUser_type("01");
             service.addSome(u);
-            return "mainpage";
+            List<Map> collection = mapper.findUserByPhoneId(phoneId);
+            String name = u.getUser_name();
+            int userIdNew = (int) collection.get(0).get("user_id");
+            return Resp.OK("注册成功!")
+                    .put("userId",userIdNew)
+                    .put("userName",name);
+        }else {
+            return Resp.error("该手机号已经注册过");
         }
-        return "login";
+
     }
 }
 

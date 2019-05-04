@@ -79,7 +79,7 @@ public class CarUserRecController {
 
 
     //查询用户历史消费记录
-    @RequestMapping(value = "/getUserRecInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserRecInfo",method = RequestMethod.GET)
     public String getUserRecInfo(Model model, HttpSession session){
         User u = null;
         try {
