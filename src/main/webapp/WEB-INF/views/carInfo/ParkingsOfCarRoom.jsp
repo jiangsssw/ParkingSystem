@@ -10,7 +10,9 @@
 <html>
 <head>
     <title>show</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
     <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
     <div class="content">
@@ -21,7 +23,7 @@
 
     <div class="content2">
         <h4>查询结果</h4>
-        <table>
+        <table class="table table-hover">
             <tr>
                 <th>车库号</th>
                 <th>车位号</th>

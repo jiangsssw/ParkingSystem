@@ -22,14 +22,15 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/statics/css/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/statics/js/"/>
     <mvc:resources mapping="/image/**" location="/WEB-INF/statics/image/"/>
+    <mvc:resources mapping="/fonts/**" location="/WEB-INF/statics/fonts/"/>
 
-    <!--测试临时屏蔽-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="wj.intercept.LoginIntercept"/>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <!--测试临时屏蔽测试临时屏蔽-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="wj.intercept.LoginIntercept"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <bean id="systemMethodInterceptor" class="wj.intercept.SystemUserCheckInterCept" >
     </bean>

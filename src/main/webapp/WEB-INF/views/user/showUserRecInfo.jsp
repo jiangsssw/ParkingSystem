@@ -10,10 +10,49 @@
 <html>
 <head>
     <title>showUserRec</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/date.css"/> "/>
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/js/moment-with-local.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-dateTime.js"/>"></script>
 </head>
 <body>
+
+<div class="row col-md-offset-2">
+    <form action="/parkingSystem/getUserRecInfo" method="post">
+        <div class='col-sm-3'>
+            <div class="form-group">
+                <label>选择起始日期：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' name="startTime" class="form-control" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class='col-sm-3'>
+            <div class="form-group">
+                <label>选择结束日期：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text' name="endTime" class="form-control" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3" style="margin-top: 24px;margin-left: 50px;">
+            <input class="btn btn-primary" type="submit" value="查询"/>
+        </div>
+    </form>
+</div>
+
     <div class="content">
-        <table>
+        <table class="table table-hover">
             <tr>
                 <th>用户Id：</th>
                 <th>停车位：</th>
@@ -45,4 +84,19 @@
         </table>
     </div>
 </body>
+<script>
+    var da = new Date().getTime()+1000*60*60*24*30;
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-cn'),
+            defaultDate: Date.now()
+        });
+        $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-cn'),
+            defaultDate: new Date(da)
+        });
+    });
+</script>
 </html>

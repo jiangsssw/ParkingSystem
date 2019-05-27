@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import wj.entity.dataBaseMapping.CarInformation;
 import wj.entity.dataBaseMapping.ParkingInformation;
 import wj.entity.dataBaseMapping.ParkingRecHis;
+import wj.entity.dataBaseMapping.User;
 import wj.entity.valueBean.ParkingInfoBean;
 import wj.mapper.CalculateRulerMapper;
 import wj.mapper.CarRoomInformationMapper;
@@ -39,6 +41,12 @@ public class ParkingInformationImpl implements IParkingInformation {
 
     @Autowired
     private CarRoomInformationMapper roomMapper;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @Autowired
+    private CarUserRecImpl  carUserRec;
 /***
  * 获取转态的车位信息
  * **/
@@ -149,26 +157,26 @@ public class ParkingInformationImpl implements IParkingInformation {
         int i = mapper.updateParkingInformation(parkingInfos);
         if (i>0){
             // 登记停车记录表
-        try {
-            setParkingInfoToHis(parkingInfos,name);
-        }catch (Exception e){
-            log.error("出错的用户姓名："+name+"车牌号："+carId+"登记信息" +
-                    parkingInfos.toString());
-            e.printStackTrace();
-        }
+//        try {
+//            setParkingInfoToHis(parkingInfos,name);
+//        }catch (Exception e){
+//            log.error("出错的用户姓名："+name+"车牌号："+carId+"登记信息" +
+//                    parkingInfos.toString());
+//            e.printStackTrace();
+//        }
             model.addAttribute("result","车辆通过");
             //调用其他的接口，如硬件放行
-            return "checkSuccess";
+            return "/success/checkSuccess";
         }
         model.addAttribute("result","车辆通过失败");
         log.error("停车失败信息："+parkingInfos.toString());
-        return "checkFailed";
+        return "/error/checkFailed";
     }
 
 
     //登记车辆信息到历史表
     @Override
-    public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName) throws Exception{
+    public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName,int time) throws Exception{
         ParkingRecHis his = new ParkingRecHis();
         his.setCar_parking_id(parkingInfos.getCar_parking_id());
         his.setCar_room_number(parkingInfos.getCar_room_number());
@@ -178,6 +186,10 @@ public class ParkingInformationImpl implements IParkingInformation {
         his.setUser_name(userName);
         his.setUser_id(parkingInfos.getUser_id());
         his.setPay_type(parkingInfos.getPay_type());
+        his.setParking_end_time(TimeUtil.getCurrentTimeNow());
+        his.setParking_time(time);
+        his.setUser_car_id(parkingInfos.getUser_car_id());
+
         int i = parkingRecHisMapper.addParkingRecHis(his);
         if (i>0){
             log.error("登记入停车历史表"+his.toString());
@@ -190,14 +202,14 @@ public class ParkingInformationImpl implements IParkingInformation {
     }
 
     @Override
-    public String dealWithOutCar(Model model, ParkingInformation parking) {
+    public String dealWithOutCar(Model model, ParkingInformation parking,CarInformation carInformation) throws Exception{
         //判断其是否是预约
         int a = parking.getIs_subscription();
         Timestamp timestamp = parking.getUse_start_time();
         Timestamp timeNow = new Timestamp(new Date().getTime());
         int parkingTime =TimeUtil.getHourFromTwoTime(timeNow,timestamp);
         int realParkingTime=0;
-        String status = parking.getParking_status();
+        String status = parking.getUse_time();
         if (!"01".equals(status)&&status!=null&&status!=""){
             //长期租赁用户
             //判断其是否在租期内
@@ -239,10 +251,29 @@ public class ParkingInformationImpl implements IParkingInformation {
         log.error("用户非法："+parking.toString());
         return "error";
         }
+
+        //登记历史停车
+
+        setParkingInfoToHis(parking,carInformation.getUser_name(),realParkingTime);
+        //登记消费记录
+        int i =carUserRec.addUserRecInfo(parking,carInformation.getPhone_id(),(int)realMoney,realParkingTime);
+        if (i==0){
+            log.error("登记消费记录失败"+parking.toString());
+        }
+        String carId = parking.getUser_car_id();
+        //将车位清空
+        parking.setParking_status("01");
+        parking.setIs_subscription(0);
+        parking.setUser_id(888);
+        parking.setCar_type("07");
+        parking.setUser_car_id("AAAA");
+        mapper.updateParkingInformation(parking);
         //返回应收费显示页面
-        model.addAttribute("result",realMoney);
-        log.error("车辆"+parking.getUser_car_id()+"应收费用"+realMoney);
-        return "payMoney";
+        model.addAttribute("carId",carId);
+        model.addAttribute("payMoney",(int)realMoney);
+        model.addAttribute("code",0);
+        log.error("车辆"+carId+"应收费用"+(int)realMoney);
+        return "/carInfo/payMoney";
 
     }
 

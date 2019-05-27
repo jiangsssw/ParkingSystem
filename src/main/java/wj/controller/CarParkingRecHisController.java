@@ -38,7 +38,6 @@ public class CarParkingRecHisController {
     //管理员查询历史停车信息
 @RequestMapping(value = "/getAllParkingRecHisInfo",method = RequestMethod.POST)
     public String getAllParkingRecHisInfo(@Valid ReqParkingRecHBean bean, Model model, HttpSession session){
-
             //必要参数校验
             if (bean.getUserId()>0){
                 int a = bean.getStartCount();
@@ -75,17 +74,28 @@ public class CarParkingRecHisController {
             }
             model.addAttribute("result","参数有误");
             return "error";
+    }
 
+    @RequestMapping(value = "/getParkingRecHis",method = RequestMethod.GET)
+    public String getPageParkingRecHis(){
+        return "/user/showParkingRecHis";
     }
 
     //用户查询自己的停车历史
-    @RequestMapping(value = "/getParkingRecHis",method = RequestMethod.GET)
-    public String getParkingRecHis(Model model,HttpSession httpSession) {
+    @RequestMapping(value = "/getParkingRecHis",method = RequestMethod.POST)
+    public String getParkingRecHis(@Valid String startTime,@Valid String endTime, Model model,HttpSession httpSession) {
+        String time1 = startTime.replace("-","").replace(" ","").replace(":","");
+        String time2 = endTime.replace("-","").replace(" ","").replace(":","");
+
         User u = null;
         try {
             u = (User) httpSession.getAttribute("User");
         } catch (Exception e) {
             log.error("用户登录异常：" + e.getMessage());
+            return "error";
+        }
+        if (u==null){
+            model.addAttribute("result","用户登录异常!!");
             return "error";
         }
         int userId = u.getUser_id();
@@ -98,6 +108,8 @@ public class CarParkingRecHisController {
                 b = 0;
             }
             bean.setStartCount(b);
+            bean.setStartTime(time1);
+            bean.setEndTime(time2);
             ParkingRecHis[] recHiss = recHisService.getParkingRecHis(bean);
             List<RespParkingRecHisBean> list = new ArrayList<>();
             if (recHiss != null & recHiss.length > 0) {
@@ -119,7 +131,10 @@ public class CarParkingRecHisController {
                 model.addAttribute("recHis", list);
                 return "/user/showParkingRecHis";
             }
+            model.addAttribute("recHis", list);
+            return "/user/showParkingRecHis";
         }
+        model.addAttribute("result","用户登录异常");
         return "error";
     }
 

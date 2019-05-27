@@ -10,18 +10,25 @@
 <html>
 <head>
     <title>注册界面</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
     <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
-        <ul>
-            <li>用户名称：<input type="text" name="userName"><strong>*</strong></li>
-            <li>密码：<input type="password" name="passWord"><strong>*</strong></li>
-            <li>再输一次密码：<input type="password" name="passWord2"><strong>*</strong></li>
-            <li>电话号码：<input type="text" name="phoneId"><strong>*</strong></li>
-            <li>电子邮箱：<input type="email" name="e-mail" placeholder="xxx@xxx.com"/><strong>*</strong> </li>
-            <li>地址：<input type="text" name="address"></li>
-            <li><input type="button" id="submit" value="提交"></li>
+<div style="width: 100%;height: 100%;background-image: url('/parkingSystem/image/carBackground.jpg'); position: absolute">
+        <ul class="list-group col-lg-2 col-md-offset-5" style="position: relative; top: 100px; opacity: .9">
+            <li class="list-group-item">用户名称：<input type="text" name="userName"><strong>*</strong></li>
+            <li class="list-group-item">密码：<input type="password" name="passWord"><strong>*</strong></li>
+            <li class="list-group-item">再输一次密码：<input type="password" name="passWord2"><strong>*</strong></li>
+            <li class="list-group-item">电话号码：<input type="text" name="phoneId"><strong>*</strong></li>
+            <li class="list-group-item">电子邮箱：<input type="email" name="e-mail" placeholder="xxx@xxx.com"/><strong>*</strong> </li>
+            <li class="list-group-item">地址：<input type="text" name="address"></li>
+            <li class="list-group-item">
+                <input type="button" id="submit" value="提交">
+                <button class="col-md-offset-3"><a href="/parkingSystem/login">返回</a></button class="col-md-offset-3">
+            </li>
         </ul>
+</div>
 </body>
 <script>
    document.querySelector("#submit").onclick=function () {

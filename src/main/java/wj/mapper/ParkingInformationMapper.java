@@ -48,7 +48,7 @@ public interface ParkingInformationMapper {
     public Map findParkingInformationByCarParkingId(String parkingId);
 
     //通过车牌号查询车库的情况
-    @Select("select * from parking_information where car_parking_id=#{carId}")
+    @Select("select * from parking_information where user_car_id=#{carId}")
     public Map findParkingInformationByCarId(String carId);
 
     //查找用户的停车位
@@ -61,4 +61,8 @@ public interface ParkingInformationMapper {
 
     @Select("select count(car_room_number) from parking_information")
     public int getCountOfRoom(int room);
+
+    //查询该用户预约的车位
+    @Select("select * from parking_information where parking_status='04' and user_id=#{userId} and is_subscription=#{remarkId}")
+    public List<Map<String,Object>> findParkingInformationByUserIdAndbiaoshi(@Param("userId")int userId,@Param("remarkId") int remarkId);
 }

@@ -10,10 +10,13 @@
 <html>
 <head>
     <title>管理员展示所有的信息</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
 <div class="content">
-    <table>
+    <table class="table table-hover">
         <tr>
             <th>用户Id</th>
             <th>用户姓名</th>

@@ -10,23 +10,36 @@
 <html>
 <head>
     <title>车位信息管理</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
     <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <style>
+        li{
+            list-style: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="content">
-        <%--添加车库--%>
-        <div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+        <h4>添加车库</h4>
+        </div>
+        <div class="panel-body">
             <ul>
                 <li>车库号：<input id="roomId" type="number" name="roomId"/></li>
                 <li>车辆数量：<input id="parkingNum" type="number" name="parkingNum"/></li>
                 <li>车库地址： <input id="remark" type="text" name="remark"/></li>
             </ul>
-            <input type="button" value="添加" onclick="addCarRoom()">
+            <input class="btn btn-success" type="button" value="添加" onclick="addCarRoom()">
         </div>
 
     </div>
     <%--添加车位--%>
-    <div class="content2">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>添加车库</h4>
+        </div>
+        <div class="panel-body">
         <ul>
             <li>所属车库：<select id="roomNOV">
                 <option selected="selected">请选择</option>
@@ -41,12 +54,20 @@
                 <option  value="03">毁坏</option>
                 <option  value="04">其他</option>
             </select></li>
-            <li><input type="button" value="添加" onclick="addParkingCar()"/></li>
+            <li><input class="btn btn-success" type="button" value="添加" onclick="addParkingCar()"/></li>
         </ul>
+        </div>
     </div>
-    <iframe class="dealWith" src="/parkingSystem/getAllCarRoom" width="700px" height="500px">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h4>添加信息展示</h4>
+        </div>
+        <div class="panel-body">
+    <iframe class="dealWith" src="/parkingSystem/getAllCarRoom" width="700px">
 
     </iframe>
+        </div>
+    </div>
 </body>
 <script>
 

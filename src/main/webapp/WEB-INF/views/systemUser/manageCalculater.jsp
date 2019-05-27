@@ -10,17 +10,24 @@
 <html>
 <head>
     <title>计费规则管理</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
     <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
     <div class="main-content">
         <div class="main-nav">
-            <input class="nav" id="selectH" type="button" value="查询历史计费规则" onclick="selectHis()"/>
-            <input class="nav" type="button" value="添加新计费规则" onclick="showCalculate()">
+            <input class="nav btn btn-success" id="selectH" type="button" value="查询历史计费规则" onclick="selectHis()"/>
+            <input class="nav btn btn-success" type="button" value="添加新计费规则" onclick="showCalculate()">
         </div>
         <div class="content-show1">
             <div class="showCaHis">
-                <table class="" align="center">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4>计费规则历史记录详情</h4>
+                    </div>
+                <div class="panel-body">
+                <table class="table table-hover" align="center">
                     <tr>
                         <th>每小时</th>
                         <th>每天</th>
@@ -35,11 +42,17 @@
 
                     </tbody>
                 </table>
+                </div>
+                </div>
             </div>
         </div>
 
         <div class="content-show2" style="display: none">
-            <div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>添加最新的计费规则</h4>
+                </div>
+            <div class="panel-body">
                 <form method="post" action="/parkingSystem/addCalculateRuler">
                 每小时收费： <input type="text" name="hourMount" placeholder="<c:out value="${map.hour_mount}"></c:out>"></br>
                 每天收费： <input type="text" name="dayMount" placeholder="<c:out value="${map.day_mount}"></c:out>"></br>
@@ -48,11 +61,11 @@
                 每年收费： <input type="text" name="yearMount" placeholder="<c:out value="${map.year_mount}"></c:out>"></br>
                 修改人： <input type="text" name="modiflyPeople" placeholder="<c:out value="${map.modefiy_peple}"></c:out>"></br>
                 修改id： <input type="text" name="modiflyId" placeholder="<c:out value="${map.modefiy_id}"></c:out>"></br>
-                    <input type="submit" value="提交">
+                    <input class="btn btn-success" type="submit" value="提交">
                 </form>
             </div>
         </div>
-
+        </div>
     </div>
 </body>
 <script>

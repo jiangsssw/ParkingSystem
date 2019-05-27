@@ -65,7 +65,6 @@ public class CalculateRulerController {
         }
         return "error";
     }
-
     @RequestMapping(value = "/returnManageC",method = RequestMethod.GET)
     public String returnManageC(Model model){
         //查出最新的记录

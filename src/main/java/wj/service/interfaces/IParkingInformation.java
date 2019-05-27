@@ -19,9 +19,9 @@ public interface IParkingInformation {
 
     String setCarToParking(Model model,int userId, String carId, String parkingStatus, String payType, String useTime, String carType,String name);
 
-    public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName) throws Exception;
+    public void setParkingInfoToHis(ParkingInformation parkingInfos,String userName,int time) throws Exception;
 
-    String dealWithOutCar(Model model,ParkingInformation parking);
+    String dealWithOutCar(Model model,ParkingInformation parking,CarInformation carInformation)throws Exception;
 
     List<ParkingInfoBean> getAllCarByRoomIdAndParkingId(int roomId, String parkingId);
 }

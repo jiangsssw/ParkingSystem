@@ -25,6 +25,9 @@ public interface CarInformationMapper {
     @Select("select * from car_information where phone_id=#{phoneId}")
     public List<Map> findCarInformationByPhoneId(String phoneId);
 
+    //通过用户ID查找记录
+    @Select("select * from car_information where user_id=#{userId}")
+    public List<Map> findCarInformationUserId(int userId);
     //删除车辆信息
     @Delete("delete from car_information where user_car_id=#{carId}")
     public int deleteCarInformation(String carId);

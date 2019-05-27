@@ -16,6 +16,7 @@ import wj.service.impl.CarUserRecImpl;
 import wj.service.impl.UserServiceImpl;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,15 +78,26 @@ public class CarUserRecController {
         return "systemUser/getAllUserRecInfo";
     }
 
-
     //查询用户历史消费记录
     @RequestMapping(value = "/getUserRecInfo",method = RequestMethod.GET)
-    public String getUserRecInfo(Model model, HttpSession session){
+    public String getPageUserRecInfo(){
+        return "user/showUserRecInfo";
+    }
+    //查询用户历史消费记录
+    @RequestMapping(value = "/getUserRecInfo",method = RequestMethod.POST)
+    public String getUserRecInfo(@Valid String startTime,@Valid String endTime, Model model, HttpSession session){
+        //时间格式转换
+        String time1 = startTime.replace("-","").replace(" ","").replace(":","");
+        String time2 = endTime.replace("-","").replace(" ","").replace(":","");
         User u = null;
         try {
             u = (User) session.getAttribute("User");
         } catch (Exception e) {
             log.error("用户登录异常：" + e.getMessage());
+            return "error";
+        }
+        if (u==null){
+            model.addAttribute("result","用户登录异常!!");
             return "error";
         }
         int userId = u.getUser_id();
@@ -99,6 +111,8 @@ public class CarUserRecController {
             b=0;
         }
         bean.setStartCount(b);
+        bean.setStartTime(time1);
+        bean.setEndTime(time2);
         CarUserRec[] recs = userRecService.getAllUserRecInfo(bean);
         List<RespUserRecBean> list = new ArrayList<>();
         if (recs!=null&&recs.length>0){
@@ -107,7 +121,8 @@ public class CarUserRecController {
                 list.add(respUserRecBean);
             }
         }else {
-            return "error";
+            model.addAttribute("recs",list);
+            return "user/showUserRecInfo";
         }
 
         int count = mapper.getCountsFromUserRec();

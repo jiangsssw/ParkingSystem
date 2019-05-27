@@ -10,19 +10,30 @@
 <html>
 <head>
     <title>展示添加车辆信息界面</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
-    <h4>返回结果：</h4>
-    <div class="content">
-        <c:out value="${result.msg}"></c:out>
+<div class="panel panel-primary col-md-10 col-md-offset-1" style="margin-top: 10px">
+    <div class="panel-heading">
+    <h4>车辆信息</h4>
     </div>
-    <div class="content-main">
-        <input type="button" value="返回主页" onclick="backToIndex()"/>
+    <div class="panel-body ">
+        <ul class="list-group">
+        <c:choose>
+            <c:when test="${code==0}">
+                <c:forEach items="${carList}" var="cars">
+               <li class="list-group-item">  车牌号：${cars.user_car_id} <button class="btn btn-danger" ><a style="color: white" href="/parkingSystem/deleteCheckInCar?carId=${cars.user_car_id}">删除</a></button></li>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                ${result}
+            </c:otherwise>
+        </c:choose>
+        </ul>
     </div>
+</div>
 </body>
-<script>
-    function backToIndex() {
-        window.location.href="/parkingSystem/homeIndex";
-    }
-</script>
+
 </html>

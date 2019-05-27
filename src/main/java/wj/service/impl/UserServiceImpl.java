@@ -1,5 +1,6 @@
 package wj.service.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.util.Map;
 @Transactional
 @Service
 public class UserServiceImpl implements IUserService {
+
+    private static Logger log = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserMapper mapper;
@@ -87,6 +90,22 @@ public class UserServiceImpl implements IUserService {
         }
 //        model.addAttribute("result","用户未登陆,未知原因。。");
         return "NO_LOGIN";
+    }
+
+    //获取当前用户的信息
+
+   public User getNowUser(HttpSession session)throws Exception{
+        User u=null;
+        try {
+          u = (User) session.getAttribute("User");
+        }catch (Exception e){
+            log.error("获取用户session错误："+e.getMessage());
+            throw e;
+        }
+        if (u==null){
+            throw new Exception("该用户非法！！！");
+        }
+        return u;
     }
 
 }

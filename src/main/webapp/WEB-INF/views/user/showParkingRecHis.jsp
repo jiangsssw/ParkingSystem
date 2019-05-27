@@ -10,10 +10,51 @@
 <html>
 <head>
     <title>showParkingHis</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/date.css"/> "/>
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/js/moment-with-local.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-dateTime.js"/>"></script>
 </head>
 <body>
+
+<div class="row col-md-offset-2">
+    <form action="/parkingSystem/getParkingRecHis" method="post">
+    <div class='col-sm-3'>
+        <div class="form-group">
+            <label>选择起始日期：</label>
+            <!--指定 date标记-->
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' name="startTime" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-3'>
+        <div class="form-group">
+            <label>选择结束日期：</label>
+            <!--指定 date标记-->
+            <div class='input-group date' id='datetimepicker2'>
+                <input type='text' name="endTime" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+        <div class="col-sm-3" style="margin-top: 24px;margin-left: 50px;">
+            <input class="btn btn-primary" type="submit" value="查询"/>
+        </div>
+    </form>
+</div>
+
+
+
 <h3>停车记录历史查询</h3>
-<table>
+<table class="table table-hover">
     <tr>
         <th>用户</th>
         <th>车牌号</th>
@@ -47,4 +88,19 @@
 </table>
 
 </body>
+<script>
+    var da = new Date().getTime()+1000*60*60*24*30;
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-cn'),
+            defaultDate: new Date(da)
+        });
+        $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm',
+            locale: moment.locale('zh-cn'),
+            defaultDate: Date.now()
+        });
+    });
+</script>
 </html>

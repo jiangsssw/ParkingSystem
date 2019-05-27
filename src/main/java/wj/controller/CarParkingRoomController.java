@@ -34,7 +34,7 @@ public class CarParkingRoomController {
     //添加车库
     @RequestMapping(value = "/addCarRoom",method = RequestMethod.POST)
     @ResponseBody
-    Resp addParkingCarRoom(@Valid int roomId, @Valid int parkingNum, @Valid String remark, HttpSession session, Model model){
+    public Resp addParkingCarRoom(@Valid int roomId, @Valid int parkingNum, @Valid String remark, HttpSession session, Model model){
 
            int i =  carService.addCarRoom(roomId,parkingNum,remark);
            if (i>0){

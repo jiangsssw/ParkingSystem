@@ -8,5 +8,7 @@ public interface ICarInformation {
 
      CarInformation[] getAllCarInformationByPhonrId(String phoneId);
 
+     CarInformation[] getAllCarInformationByUserId(int userId);
+
      boolean updateCarInformation(CarLogin carLogin,int userId);
 }

@@ -14,10 +14,10 @@ public class LoginIntercept implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String uri = httpServletRequest.getRequestURI();
         httpServletRequest.setCharacterEncoding("utf-8");
-        if (uri.indexOf("/login")>0){
+        if (uri.indexOf("/login")>0||uri.indexOf("/register")>0||uri.indexOf("/css/")>0){
             return true;
         }
-        if (uri.indexOf("/register")>0){
+        if (uri.indexOf("/js/")>0||uri.indexOf("/image/")>0||uri.indexOf("/fonts/")>0){
             return true;
         }
         HttpSession session = httpServletRequest.getSession();
@@ -25,7 +25,6 @@ public class LoginIntercept implements HandlerInterceptor {
         if (u!=null){
             return true;
         }
-
         httpServletRequest.setAttribute("result","您还没有登录请先登录");
         httpServletRequest.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(httpServletRequest,httpServletResponse);
         return false;

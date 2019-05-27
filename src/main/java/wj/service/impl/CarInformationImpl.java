@@ -136,4 +136,19 @@ public class CarInformationImpl implements ICarInformation {
         return i;
     }
 
+    @Override
+    public CarInformation[] getAllCarInformationByUserId(int userId) {
+        List<Map> result = mapper.findCarInformationUserId(userId);
+        if (result==null||result.size()==0){
+            return null;
+        }
+        int length = result.size();
+        CarInformation[] carInformations = new CarInformation[length];
+        for (int i = 0;i<length;i++){
+            CarInformation car = new CarInformation();
+            ReflectUtil.mapToObject(result.get(i),car);
+            carInformations[i] = car;
+        }
+        return carInformations;
+    }
 }

@@ -33,12 +33,11 @@ public class RegisterController {
     //注册
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
-    public Resp getRegister(@Valid Register register, RedirectAttributes model, Errors errors){
+    public Resp getRegister(@Valid Register register, Errors errors){
         if (errors.hasErrors()){
             return Resp.error("未知原因");
         }
         Map<String,String> result = new HashMap<>();
-
         String phoneId = register.getPhoneId();
         String emailAddress = register.getEmailAddress();
         String address = register.getAddress();
@@ -69,7 +68,6 @@ public class RegisterController {
         }else {
             return Resp.error("该手机号已经注册过");
         }
-
     }
 }
 

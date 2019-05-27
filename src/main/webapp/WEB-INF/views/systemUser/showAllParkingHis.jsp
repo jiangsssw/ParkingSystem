@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/> "/>
+    <script src="<c:url value="/js/jquery.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
 
@@ -36,7 +39,7 @@
 
 
         <h3>停车记录历史查询</h3>
-        <table>
+        <table class="table table-hover">
             <tr>
                 <th>用户</th>
                 <th>车牌号</th>
