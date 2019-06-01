@@ -14,6 +14,7 @@ import wj.entity.valueBean.RespUserRecBean;
 import wj.mapper.ICarUserRecMapper;
 import wj.service.impl.CarUserRecImpl;
 import wj.service.impl.UserServiceImpl;
+import wj.until.SystemUser;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -36,6 +37,7 @@ public class CarUserRecController {
 
     //管理员查询用户历史消费记录
     //权限验证
+    @SystemUser
     @RequestMapping(value = "/getAllUserRecInfo",method = RequestMethod.POST)
     public String getAllUserRecInfo(ReqUserRecBean bean, Model model, HttpSession session){
 

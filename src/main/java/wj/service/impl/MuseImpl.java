@@ -3,6 +3,7 @@ package wj.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wj.entity.dataBaseMapping.Muse;
 import wj.entity.valueBean.MuseBean;
 import wj.mapper.MuseMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class MuseImpl implements IMuse {
     private static Logger log = Logger.getLogger(MuseImpl.class);
 

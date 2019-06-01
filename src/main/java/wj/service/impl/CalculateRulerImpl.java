@@ -3,6 +3,7 @@ package wj.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import wj.entity.dataBaseMapping.CalculateRuler;
 import wj.entity.valueBean.CalculateRulerBean;
@@ -14,6 +15,7 @@ import wj.until.TimeUtil;
 import java.util.List;
 import java.util.Map;
 @Service
+@Transactional
 public class CalculateRulerImpl implements ICalculateRuler {
 
     private static Logger log = Logger.getLogger(CalculateRulerImpl.class);

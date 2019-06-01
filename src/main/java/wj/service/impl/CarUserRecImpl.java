@@ -3,6 +3,7 @@ package wj.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.CarUserRec;
 import wj.entity.dataBaseMapping.ParkingInformation;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class CarUserRecImpl implements ICarUserRec {
     private static Logger log = Logger.getLogger(CarUserRecImpl.class);
 
@@ -87,7 +89,7 @@ public class CarUserRecImpl implements ICarUserRec {
         rec.setUser_car_id(information.getUser_car_id());
         rec.setParking_time(time);
         rec.setPhone_id(phoneId);
-        return 0;
+        return mapper.addUserRecInfo(rec);
     }
 
 }

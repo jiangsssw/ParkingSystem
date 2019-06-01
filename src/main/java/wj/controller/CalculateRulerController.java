@@ -11,6 +11,7 @@ import wj.service.impl.CalculateRulerImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.until.CarTimeConst;
 import wj.until.Resp;
+import wj.until.SystemUser;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -65,6 +66,7 @@ public class CalculateRulerController {
         }
         return "error";
     }
+    @SystemUser
     @RequestMapping(value = "/returnManageC",method = RequestMethod.GET)
     public String returnManageC(Model model){
         //查出最新的记录

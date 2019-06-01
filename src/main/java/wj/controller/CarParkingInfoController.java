@@ -17,6 +17,7 @@ import wj.service.interfaces.IParkingInformation;
 import wj.until.CarTimeConst;
 import wj.until.ReflectUtil;
 import wj.until.Resp;
+import wj.until.SystemUser;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -37,6 +38,7 @@ public class CarParkingInfoController {
     private ParkingInformationMapper mapper;
 
     //权限验证
+    @SystemUser
     //添加车位信息
     @RequestMapping(value = "/addParkingInformation",method = RequestMethod.POST)
     @ResponseBody
@@ -58,6 +60,7 @@ public class CarParkingInfoController {
 
     //对车位信息状态的修改
     //权限验证
+    @SystemUser
     @RequestMapping(value = "/modifyParkingInfo",method = RequestMethod.POST)
     @ResponseBody
     public Resp modifyParkingInfo(@Valid String parkingId, @Valid String status,@Valid int subscriptionStatus, HttpSession session,Model model){
@@ -96,6 +99,7 @@ public class CarParkingInfoController {
     }
 
     //权限验证
+    @SystemUser
     //删除车位信息
     @RequestMapping(value = "/deleteParkingInfo",method = RequestMethod.POST)
     @ResponseBody
@@ -123,6 +127,7 @@ public class CarParkingInfoController {
     }
 
     //加权限验证
+    @SystemUser
     //获取某个车库下的所有车位信息
     @RequestMapping(value = "/getParkingsOfCarRoom")
     public String getParkingsOfCarRoom(@Valid int roomId,@Valid String parkingId, Model model){

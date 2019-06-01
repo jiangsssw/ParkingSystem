@@ -13,6 +13,7 @@ import wj.mapper.CarInformationMapper;
 import wj.mapper.ParkingInformationMapper;
 import wj.service.interfaces.IParkingInformation;
 import wj.until.ReflectUtil;
+import wj.until.SystemUser;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -64,6 +65,7 @@ public String outOfCarFromParking(@Valid String carId, Model model) throws Excep
 
     //管理员管理外出车辆演示界面
     //权限验证
+    @SystemUser
     @RequestMapping(value = "/outOfCarFromParking",method = RequestMethod.GET)
     public String getutOfCarFromParkingPage(){
 

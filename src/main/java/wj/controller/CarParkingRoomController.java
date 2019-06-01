@@ -13,6 +13,7 @@ import wj.mapper.CarRoomInformationMapper;
 import wj.service.impl.CarInformationImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.until.Resp;
+import wj.until.SystemUser;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class CarParkingRoomController {
     private CarRoomInformationMapper roomInformationMapper;
 
     //添加车库
+    @SystemUser
     @RequestMapping(value = "/addCarRoom",method = RequestMethod.POST)
     @ResponseBody
     public Resp addParkingCarRoom(@Valid int roomId, @Valid int parkingNum, @Valid String remark, HttpSession session, Model model){
@@ -47,6 +49,7 @@ public class CarParkingRoomController {
     }
 
     //权限验证
+    @SystemUser
     @RequestMapping(value = "/getAllCarRoom",method = RequestMethod.GET)
     public String getAllCarRoom(Model model){
         //拿到所有的停车位的信息
@@ -58,7 +61,7 @@ public class CarParkingRoomController {
 
     //-->删除数据
     //权限验证
-
+    @SystemUser
     @ResponseBody
     @RequestMapping(value = "/deleteRoomId",method = RequestMethod.POST)
     public Resp deleteRoomId(@Valid int roomId){
@@ -70,6 +73,7 @@ public class CarParkingRoomController {
     }
 
     //权限验证
+    @SystemUser
     @RequestMapping(value = "/getCarParking",method = RequestMethod.GET)
     public String getCarParking(Model model){
         //查出所有的roomID

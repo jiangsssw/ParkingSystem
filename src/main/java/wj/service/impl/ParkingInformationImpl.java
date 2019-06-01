@@ -3,6 +3,7 @@ package wj.service.impl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import wj.entity.dataBaseMapping.CarInformation;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class ParkingInformationImpl implements IParkingInformation {
     private static Logger log = Logger.getLogger(ParkingInformationImpl.class);
     @Autowired
@@ -235,7 +237,7 @@ public class ParkingInformationImpl implements IParkingInformation {
         //取出相应字段
         if (a>0){
             //预约用户
-            realMoney = money*(1-CarTimeConst.freeTax)-5;
+            realMoney = money*(1-CarTimeConst.freeTax);
             if (realMoney<0){
                 realMoney = 0;
             }

@@ -14,6 +14,7 @@ import wj.entity.valueBean.RespParkingRecHisBean;
 import wj.service.impl.ParkingRecHisImpl;
 import wj.service.impl.UserServiceImpl;
 import wj.until.CarTimeConst;
+import wj.until.SystemUser;
 import wj.until.TimeUtil;
 
 import javax.servlet.http.HttpSession;
@@ -35,6 +36,7 @@ public class CarParkingRecHisController {
     private UserServiceImpl userService;
 
     //权限验证
+    @SystemUser
     //管理员查询历史停车信息
 @RequestMapping(value = "/getAllParkingRecHisInfo",method = RequestMethod.POST)
     public String getAllParkingRecHisInfo(@Valid ReqParkingRecHBean bean, Model model, HttpSession session){
