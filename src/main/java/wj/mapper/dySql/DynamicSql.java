@@ -79,9 +79,9 @@ public class DynamicSql {
         if (!StringUtils.isEmpty(startTime)&&!StringUtils.isEmpty(endTime)){
             sb.append(" and use_start_time between str_to_date('");
             sb.append(TimeUtil.timeParse(startTime));
-            sb.append("','%Y-%m-%d %H:%m:%S') and str_to_date('");
+            sb.append("','%Y-%m-%d %H:%i:%S') and str_to_date('");
             sb.append(TimeUtil.timeParse(endTime));
-            sb.append("','%Y-%m-%d %H:%m:%S')");
+            sb.append("','%Y-%m-%d %H:%i:%S')");
         }
         if (!StringUtils.isEmpty(carType)){
             sb.append(" and car_type = ");

@@ -85,17 +85,17 @@
     </div>
 </body>
 <script>
-    var da = new Date().getTime()+1000*60*60*24*30;
+    var da = new Date().getTime()-1000*60*60*24*30;
     $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
             locale: moment.locale('zh-cn'),
-            defaultDate: Date.now()
+            defaultDate: new Date(da)
         });
         $('#datetimepicker2').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
             locale: moment.locale('zh-cn'),
-            defaultDate: new Date(da)
+            defaultDate: Date.now()
         });
     });
 </script>

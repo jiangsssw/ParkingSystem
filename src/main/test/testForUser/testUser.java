@@ -125,9 +125,9 @@ if (aaa==null||aaa.length()==0){
     }
     @Test
     public void testSome1(){
-        String time = "201808091530";
-        String r = time.substring(0,4)+"-"+time.substring(4,6)+"-"+time.substring(6,8)+" "
-                +time.substring(8,10)+":"+time.substring(10,12);
-        System.out.println(r);
+        Timestamp timeNow = new Timestamp(new Date().getTime());
+        Timestamp timestamp = new Timestamp(new Date().getTime()-99999);
+        int parkingTime =TimeUtil.getHourFromTwoTime(timeNow,timestamp);
+        System.out.println(parkingTime);
     }
 }

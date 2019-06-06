@@ -61,8 +61,16 @@ public class TimeUtil {
         long s1 = time1.getTime();
         long s2 = time2.getTime();
         if (s1>s2){
-            return (int)Math.floor((s1-s2)/(60*60*1000));
+            double a = (s1-s2);
+            int b = 60*60*1000;
+            double c = a/b;
+           double number= Math.ceil(c);
+            return (int)number;
         }
-       return  (int)Math.floor((s2-s1)/(60*60*1000));
+        double a = (s2-s1);
+        int b = 60*60*1000;
+        double c = a/b;
+        double number= Math.ceil(c);
+        return (int)number;
     }
 }

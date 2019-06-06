@@ -132,17 +132,49 @@
             var isSub = e.path[2].children[9].firstChild;
             parentNodeW = e.path[2];
            //改车辆预约状态
-            var isSubNew = document.createElement("input");
-                isSubNew.type="text";
-                isSubNew.placeholder=(isSub.data==null?"":isSub.data);
+            var isSubNew = document.createElement("select");
+            var option11 = document.createElement("option");
+            option11.selected="selected";
+            option11.value="0";
+            option11.text="非预约状态";
+            var option22 = document.createElement("option");
+            option22.value="1";
+            option22.text="预约状态";
+            isSubNew.appendChild(option11);
+            isSubNew.appendChild(option22);
+//                isSubNew.type="text";
+//                isSubNew.placeholder=(isSub.data==null?"":isSub.data);
                 orgNode1 = isSub;
                 repNode1 = isSubNew;
             e.path[2].children[9].replaceChild(isSubNew,isSub);
             //改车辆状态
+//        <select id="parkingStatus">
+//                <option selected="selected" value="01">空闲</option>
+//                <option  value="02">占用</option>
+//                <option  value="03">毁坏</option>
+//                <option  value="04">其他</option>
+//                </select>
             var parkingStatus = e.path[2].children[3].firstChild;
-            var parkingStatusNew = document.createElement("input");
-                parkingStatusNew.type="text";
-                parkingStatusNew.placeholder=(parkingStatus.data==null?"":parkingStatus.data);
+            var parkingStatusNew = document.createElement("select");
+            var option1 = document.createElement("option");
+            option1.selected="selected";
+            option1.value="01";
+            option1.text="空闲";
+            var option2 = document.createElement("option");
+            option2.value="02";
+            option2.text="占用";
+            var option3 = document.createElement("option");
+            option3.value="03";
+            option3.text="毁坏";
+            var option4 = document.createElement("option");
+            option4.value="04";
+            option4.text="其他";
+            parkingStatusNew.appendChild(option1);
+            parkingStatusNew.appendChild(option2);
+            parkingStatusNew.appendChild(option3);
+            parkingStatusNew.appendChild(option4);
+//                parkingStatusNew.type="text";
+//                parkingStatusNew.placeholder=(parkingStatus.data==null?"":parkingStatus.data);
                 orgNode2 = parkingStatus;
                 repNode2 = parkingStatusNew;
                 e.path[2].children[3].replaceChild(parkingStatusNew,parkingStatus);

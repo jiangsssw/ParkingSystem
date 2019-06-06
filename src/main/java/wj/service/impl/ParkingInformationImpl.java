@@ -258,7 +258,7 @@ public class ParkingInformationImpl implements IParkingInformation {
 
         setParkingInfoToHis(parking,carInformation.getUser_name(),realParkingTime);
         //登记消费记录
-        int i =carUserRec.addUserRecInfo(parking,carInformation.getPhone_id(),(int)realMoney,realParkingTime);
+        int i =carUserRec.addUserRecInfo(parking,carInformation.getPhone_id(),(int)Math.round(realMoney),realParkingTime);
         if (i==0){
             log.error("登记消费记录失败"+parking.toString());
         }
@@ -272,9 +272,9 @@ public class ParkingInformationImpl implements IParkingInformation {
         mapper.updateParkingInformation(parking);
         //返回应收费显示页面
         model.addAttribute("carId",carId);
-        model.addAttribute("payMoney",(int)realMoney);
+        model.addAttribute("payMoney",(int)Math.round(realMoney));
         model.addAttribute("code",0);
-        log.error("车辆"+carId+"应收费用"+(int)realMoney);
+        log.error("车辆"+carId+"应收费用"+(int)Math.round(realMoney));
         return "/carInfo/payMoney";
 
     }

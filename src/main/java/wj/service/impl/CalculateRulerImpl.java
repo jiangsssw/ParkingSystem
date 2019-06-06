@@ -60,7 +60,8 @@ public class CalculateRulerImpl implements ICalculateRuler {
         int i = mapper.addCarInformation(ruler);
         if (i>0){
             log.error("添加计算规则表信息："+ruler.toString());
-            return "addCalculateSuccess";
+            model.addAttribute("result","添加计费规则成功");
+            return "/success/checkSuccess";
         }
         model.addAttribute("result","添加计费规则失败");
         log.error("添加计算规则表信息失败："+ruler.toString());

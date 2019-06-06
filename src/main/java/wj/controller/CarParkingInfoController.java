@@ -136,4 +136,11 @@ public class CarParkingInfoController {
         model.addAttribute("list",list);
         return "/carInfo/ParkingsOfCarRoom";
     }
+    //加权限验证
+    @SystemUser
+    //获取某个车库下的所有车位信息
+    @RequestMapping(value = "/getParkingsOfCarRoomForSelect")
+    public String getParkingsOfCarRoom(){
+        return "/carInfo/ParkingsOfCarRoom";
+    }
 }

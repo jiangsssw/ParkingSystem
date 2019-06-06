@@ -89,7 +89,7 @@
 
 </body>
 <script>
-    var da = new Date().getTime()+1000*60*60*24*30;
+    var da = new Date().getTime()-1000*60*60*24*30;
     $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
